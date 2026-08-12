@@ -3,96 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayaan Kumar Mudhelli - Puttu Panchalu Invitation</title>
+    <title>Ayaan Kumar Mudhelli - Puttu Panchalu Celebration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Opening Cover -->
-    <div id="cover">
+    <!-- Music Control -->
+    <div class="music-control">
+        <button id="musicToggle" class="music-btn" title="Toggle Music">
+            <span class="music-icon">🎵</span>
+        </button>
+        <div class="music-status">Music: <span id="musicStatus">Off</span></div>
+    </div>
 
-        <h1>🙏 శ్రీ గణేశాయ నమః 🙏</h1>
-
-        <h2>Puttu Panchalu Ceremony</h2>
-
-        <p class="subtitle">
-            With divine blessings, we invite you to celebrate
-            the joyous occasion of our beloved child.
-        </p>
-
-        <button id="openBtn">✨ Touch to Open ✨</button>
-
+    <!-- Opening Envelope Cover -->
+    <div id="cover" class="envelope-cover">
+        <div class="envelope">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body">
+                <p class="seal-text">YOU ARE CORDIALLY INVITED</p>
+            </div>
+        </div>
+        <button id="openBtn" class="open-btn">Open Invitation</button>
     </div>
 
     <!-- Invitation Card -->
-    <div id="card">
-
-        <div class="top-decoration">🌺 🪔 🌺</div>
-
-        <img src="ayaan.jpg" alt="Ayaan Kumar Mudhelli" class="photo">
-
-        <h1>Ayaan Kumar Mudhelli</h1>
-
-        <h2>Puttu Panchalu Ceremony</h2>
-
-        <div class="details">
-
-            <p><strong>📅 Date:</strong> Saturday, 22 August 2026</p>
-
-            <p><strong>🕛 Time:</strong> 12:00 PM</p>
-
-            <p><strong>📍 Venue:</strong> Ithihas, Hyderabad</p>
-
+    <div id="card" class="invitation-card">
+        
+        <!-- Decorative top border -->
+        <div class="card-header">
+            <div class="decorative-line"></div>
+            <p class="header-text">together with</p>
+            <div class="decorative-line"></div>
         </div>
 
-        <div class="hosts">
-
-            <p>Hosted by</p>
-
+        <!-- Parents Names -->
+        <div class="parents">
             <h3>Mudhelli Bhanu Prasad</h3>
-            <h3>&</h3>
+            <span class="and">&</span>
             <h3>Mudhelli Prashanthi</h3>
-
-            <p class="grandmother">
-                Grandmother: Mudhelli Rama Devi
-            </p>
-
+            <p class="grandmother">and Grandmother <br><strong>Mudhelli Rama Devi</strong></p>
         </div>
 
-        <p class="blessing">
-            Your gracious presence and blessings
-            will make this occasion truly memorable.
-        </p>
+        <!-- Child Name and Event -->
+        <div class="child-section">
+            <p class="request">request the honour of your presence at the</p>
+            <h1 class="event-name">Puttu Panchalu Ceremony</h1>
+            <p class="child-name">of</p>
+            <h2>Ayaan Kumar Mudhelli</h2>
+        </div>
+
+        <!-- Photo -->
+        <img src="ayaan.jpg" alt="Ayaan Kumar Mudhelli" class="child-photo">
+
+        <!-- Event Details -->
+        <div class="event-details">
+            <div class="detail-item">
+                <span class="detail-label">Date</span>
+                <span class="detail-value">Saturday, the twenty-second of August<br>Two thousand twenty-six</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Time</span>
+                <span class="detail-value">12:00 in the afternoon</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Venue</span>
+                <span class="detail-value">Ithihas<br>Hyderabad</span>
+            </div>
+        </div>
+
+        <!-- Closing Message -->
+        <div class="closing-message">
+            <p class="blessing">Your gracious presence and blessings<br>will make this occasion truly memorable</p>
+        </div>
+
+        <!-- Decorative bottom border -->
+        <div class="card-footer">
+            <div class="decorative-line"></div>
+        </div>
 
         <!-- Action Buttons -->
-        <div class="buttons">
-
-            <a class="button"
-               href="https://maps.google.com/?q=Ithihas Hyderabad"
-               target="_blank">
-               📍 View Location
+        <div class="action-buttons">
+            <a class="btn btn-primary" href="https://maps.google.com/?q=Ithihas Hyderabad" target="_blank">
+                📍 View Location
             </a>
-
-            <a class="button"
-               href="https://wa.me/?text=You are invited to Ayaan Kumar Mudhelli's Puttu Panchalu Ceremony on 22 August 2026 at 12:00 PM, Ithihas, Hyderabad."
-               target="_blank">
-               📲 Share Invitation
+            <a class="btn btn-primary" href="https://wa.me/?text=You are invited to Ayaan Kumar Mudhelli's Puttu Panchalu Ceremony on 22 August 2026 at 12:00 PM, Ithihas, Hyderabad." target="_blank">
+                📲 Share
             </a>
-
         </div>
-
-        <div class="bottom-decoration">🌺 🌸 🌺</div>
-
-        <!-- Scratch Layer -->
-        <canvas id="scratch"></canvas>
 
     </div>
 
     <!-- Background Music -->
-    <audio id="music" loop>
+    <audio id="music" loop preload="metadata">
         <source src="music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
     </audio>
+
+    <!-- Particle Effects -->
+    <div id="particles"></div>
 
     <script src="script.js"></script>
 

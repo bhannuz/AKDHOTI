@@ -1,245 +1,488 @@
-/* ------------------------------------
-   Ayaan Kumar Mudhelli Invitation
--------------------------------------*/
+/* ================================
+   Western-Style Invitation Card
+   ================================ */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    background:linear-gradient(135deg,#5d0b2e,#7d123f,#d4af37);
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
+body {
+    background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc8 50%, #d4c5a9 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
 }
 
-/* Cover */
+/* ================================
+   Music Control
+   ================================ */
 
-#cover{
-    width:92%;
-    max-width:430px;
-    background:#fff8ec;
-    padding:35px;
-    border-radius:25px;
-    text-align:center;
-    border:6px solid gold;
-    box-shadow:0 10px 30px rgba(0,0,0,.35);
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 15px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-#cover h1{
-    color:#8b0000;
-    margin-bottom:20px;
-    font-size:28px;
+.music-btn {
+    background: linear-gradient(135deg, #8b7355, #c9a961);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(139, 115, 85, 0.3);
 }
 
-#cover h2{
-    color:#5d0b2e;
-    margin-bottom:30px;
+.music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(139, 115, 85, 0.4);
 }
 
-#openBtn{
-
-    background:#8b0000;
-    color:white;
-
-    border:none;
-
-    padding:15px 35px;
-
-    border-radius:40px;
-
-    font-size:20px;
-
-    cursor:pointer;
-
-    transition:.3s;
+.music-btn.playing {
+    animation: pulse 1.5s infinite;
 }
 
-#openBtn:hover{
-
-    transform:scale(1.08);
-
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
 }
 
-/* Invitation Card */
-
-#card{
-
-    display:none;
-
-    width:92%;
-
-    max-width:430px;
-
-    background:white;
-
-    border-radius:25px;
-
-    padding:25px;
-
-    position:relative;
-
-    text-align:center;
-
-    border:6px solid gold;
-
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
-
-    overflow:hidden;
-
+.music-status {
+    font-size: 13px;
+    color: #8b7355;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
-.photo{
+/* ================================
+   Envelope Cover
+   ================================ */
 
-    width:150px;
-
-    height:150px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    border:5px solid gold;
-
-    margin:15px auto;
-
+.envelope-cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-#card h1{
-
-    color:#8b0000;
-
-    margin:10px 0;
-
+.envelope {
+    width: 100%;
+    max-width: 400px;
+    perspective: 1000px;
 }
 
-#card h2{
-
-    color:#5d0b2e;
-
-    margin-bottom:20px;
-
+.envelope-body {
+    width: 100%;
+    height: 250px;
+    background: linear-gradient(to bottom, #f5f1e8, #ede5d8);
+    border: 3px solid #8b7355;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
 }
 
-#card p{
-
-    font-size:18px;
-
-    line-height:1.8;
-
-    color:#333;
-
-    margin-bottom:15px;
-
+.envelope-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(139, 115, 85, 0.03) 2px,
+        rgba(139, 115, 85, 0.03) 4px
+    );
+    pointer-events: none;
 }
 
-.button{
-
-    display:inline-block;
-
-    text-decoration:none;
-
-    background:#8b0000;
-
-    color:white;
-
-    padding:12px 28px;
-
-    border-radius:30px;
-
-    margin:8px;
-
-    transition:.3s;
-
+.envelope-flap {
+    width: 100%;
+    height: 0;
+    border-left: 200px solid transparent;
+    border-right: 200px solid transparent;
+    border-top: 125px solid #d4c5a9;
+    margin-bottom: -3px;
+    position: relative;
+    animation: flapOpen 0.8s ease-out forwards;
+    transform-origin: top;
 }
 
-.button:hover{
-
-    background:#a40000;
-
+@keyframes flapOpen {
+    from {
+        transform: rotateX(0deg);
+        border-top-color: #d4c5a9;
+    }
+    to {
+        transform: rotateX(-30deg);
+        border-top-color: #c9a961;
+    }
 }
 
-/* Scratch Canvas */
-
-#scratch{
-
-    position:absolute;
-
-    left:0;
-
-    top:0;
-
-    width:100%;
-
-    height:100%;
-
-    border-radius:25px;
-
-    z-index:20;
-
+.seal-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #5c4a35;
+    letter-spacing: 4px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
 }
 
-/* Animation */
-
-.show{
-
-    animation:zoom .8s ease;
-
+.open-btn {
+    padding: 18px 45px;
+    background: linear-gradient(135deg, #8b7355, #a0845f);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 20px rgba(139, 115, 85, 0.3);
+    text-transform: uppercase;
 }
 
-@keyframes zoom{
+.open-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(139, 115, 85, 0.4);
+    background: linear-gradient(135deg, #a0845f, #8b7355);
+}
 
-    from{
+.open-btn:active {
+    transform: translateY(-1px);
+}
 
-        transform:scale(.5);
+/* ================================
+   Invitation Card
+   ================================ */
 
-        opacity:0;
+.invitation-card {
+    display: none;
+    width: 95%;
+    max-width: 500px;
+    background: linear-gradient(to bottom, #faf8f3, #f5f1e8);
+    padding: 50px 40px;
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: cardAppear 0.8s ease-out;
+    position: relative;
+}
 
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.decorative-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #8b7355, transparent);
+}
+
+.header-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: #8b7355;
+    letter-spacing: 3px;
+    font-weight: 300;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Parents Names */
+.parents {
+    margin-bottom: 35px;
+}
+
+.parents h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #5c4a35;
+    margin: 8px 0;
+    letter-spacing: 1px;
+}
+
+.and {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: #8b7355;
+    display: block;
+    margin: 12px 0;
+    font-style: italic;
+}
+
+.grandmother {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: #8b7355;
+    margin-top: 15px;
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+.grandmother strong {
+    font-weight: 600;
+}
+
+/* Child Section */
+.child-section {
+    margin-bottom: 25px;
+}
+
+.request {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: #8b7355;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.event-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #5c4a35;
+    margin: 20px 0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.child-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: #8b7355;
+    font-style: italic;
+    margin: 20px 0 15px;
+    letter-spacing: 2px;
+}
+
+.child-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #5c4a35;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* Child Photo */
+.child-photo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #c9a961;
+    margin: 30px auto;
+    display: block;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Event Details */
+.event-details {
+    margin: 40px 0;
+    padding: 30px 0;
+    border-top: 1px solid #d4c5a9;
+    border-bottom: 1px solid #d4c5a9;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.detail-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: #8b7355;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.detail-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: #5c4a35;
+    font-weight: 300;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+}
+
+/* Closing Message */
+.closing-message {
+    margin: 35px 0 25px;
+}
+
+.blessing {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: #8b7355;
+    font-weight: 300;
+    line-height: 1.9;
+    font-style: italic;
+    letter-spacing: 0.5px;
+}
+
+/* Card Footer */
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 32px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #8b7355, #a0845f);
+    color: white;
+    box-shadow: 0 6px 15px rgba(139, 115, 85, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(139, 115, 85, 0.4);
+    background: linear-gradient(135deg, #a0845f, #8b7355);
+}
+
+/* ================================
+   Particles/Decorations
+   ================================ */
+
+.particle {
+    position: fixed;
+    pointer-events: none;
+    font-size: 24px;
+    opacity: 0.6;
+    animation: floatDown 4s ease-in forwards;
+}
+
+@keyframes floatDown {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* ================================
+   Responsive Design
+   ================================ */
+
+@media (max-width: 480px) {
+    .invitation-card {
+        padding: 35px 25px;
+        max-width: 100%;
     }
 
-    to{
-
-        transform:scale(1);
-
-        opacity:1;
-
+    .event-name {
+        font-size: 28px;
     }
 
-}
-
-/* Floating Flowers */
-
-.flower{
-
-    position:fixed;
-
-    top:-40px;
-
-    animation:fall linear forwards;
-
-    z-index:9999;
-
-    pointer-events:none;
-
-}
-
-@keyframes fall{
-
-    from{
-
-        transform:translateY(0) rotate(0deg);
-
+    .child-section h2 {
+        font-size: 26px;
     }
 
-    to{
-
-        transform:translateY(110vh) rotate(360deg);
-
+    .parents h3 {
+        font-size: 18px;
     }
 
+    .detail-value {
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 12px 28px;
+        font-size: 14px;
+    }
+
+    .music-control {
+        top: 10px;
+        right: 10px;
+        gap: 8px;
+    }
+
+    .music-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
 }

@@ -1,226 +1,122 @@
 // ================================
-// Puttu Panchalu Invitation
+// Western-Style Invitation
+// Music-Enhanced Version
 // ================================
 
 const openBtn = document.getElementById("openBtn");
 const cover = document.getElementById("cover");
 const card = document.getElementById("card");
 const music = document.getElementById("music");
+const musicToggle = document.getElementById("musicToggle");
+const musicStatus = document.getElementById("musicStatus");
+const particlesContainer = document.getElementById("particles");
 
-const canvas = document.getElementById("scratch");
-const ctx = canvas.getContext("2d");
+let isPlaying = false;
 
-let scratching = false;
+// ================================
+// Music Control
+// ================================
 
-// -----------------------
+musicToggle.addEventListener("click", () => {
+    if (isPlaying) {
+        music.pause();
+        isPlaying = false;
+    } else {
+        music.play().catch(() => {
+            console.log("Music playback blocked. Enable sound in browser.");
+        });
+        isPlaying = true;
+    }
+    updateMusicUI();
+});
+
+function updateMusicUI() {
+    if (isPlaying) {
+        musicStatus.textContent = "On";
+        musicToggle.classList.add("playing");
+    } else {
+        musicStatus.textContent = "Off";
+        musicToggle.classList.remove("playing");
+    }
+}
+
+// ================================
 // Open Invitation
-// -----------------------
+// ================================
 
 openBtn.addEventListener("click", () => {
-
     cover.style.display = "none";
-
     card.style.display = "block";
-    card.classList.add("show");
-
-    setupScratch();
-
-    music.play().catch(() => {
-        console.log("Music blocked until user interaction.");
-    });
-
-    startFlowers();
-
+    
+    // Auto-play music when card opens
+    if (!isPlaying) {
+        music.play().catch(() => {
+            console.log("Music blocked until user interaction.");
+        });
+        isPlaying = true;
+        updateMusicUI();
+    }
+    
+    // Start decorative particles
+    startParticles();
 });
 
-// -----------------------
-// Flower Animation
-// -----------------------
+// ================================
+// Decorative Particles
+// ================================
 
-function startFlowers() {
-
-    setInterval(() => {
-
-        const flower = document.createElement("div");
-
-        flower.className = "flower";
-
-        flower.innerHTML = "🌸";
-
-        flower.style.left = Math.random() * 100 + "vw";
-
-        flower.style.fontSize = (20 + Math.random() * 20) + "px";
-
-        flower.style.animationDuration =
-            (5 + Math.random() * 5) + "s";
-
-        document.body.appendChild(flower);
-
+function startParticles() {
+    const flowers = ['🌹', '🌸', '🌺', '💐', '🌻'];
+    const interval = setInterval(() => {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+        particle.style.left = Math.random() * 100 + "vw";
+        particle.style.animationDuration = (3 + Math.random() * 3) + "s";
+        particle.style.opacity = (0.3 + Math.random() * 0.4).toString();
+        particlesContainer.appendChild(particle);
+        
         setTimeout(() => {
-
-            flower.remove();
-
-        },10000);
-
-    },300);
-
+            particle.remove();
+        }, 7000);
+    }, 400);
+    
+    // Stop particles after 15 seconds
+    setTimeout(() => {
+        clearInterval(interval);
+    }, 15000);
 }
 
-// -----------------------
-// Scratch Layer
-// -----------------------
+// ================================
+// Initialize
+// ================================
 
-function setupScratch(){
-
-    canvas.width = card.offsetWidth;
-
-    canvas.height = card.offsetHeight;
-
-    ctx.globalCompositeOperation = "source-over";
-
-    ctx.fillStyle = "#d4af37";
-
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-
-    ctx.fillStyle = "#ffffff";
-
-    ctx.textAlign = "center";
-
-    ctx.font = "bold 28px Arial";
-
-    ctx.fillText(
-        "✨ Scratch Here ✨",
-        canvas.width/2,
-        canvas.height/2
-    );
-
-    ctx.globalCompositeOperation = "destination-out";
-
-}
-
-// -----------------------
-// Scratch Function
-// -----------------------
-
-function scratch(x,y){
-
-    ctx.beginPath();
-
-    ctx.arc(x,y,30,0,Math.PI*2);
-
-    ctx.fill();
-
-}
-
-// -----------------------
-// Mouse Support
-// -----------------------
-
-canvas.addEventListener("mousedown",()=>{
-
-    scratching = true;
-
-});
-
-canvas.addEventListener("mouseup",()=>{
-
-    scratching = false;
-
-    checkScratch();
-
-});
-
-canvas.addEventListener("mousemove",(e)=>{
-
-    if(!scratching) return;
-
-    const rect = canvas.getBoundingClientRect();
-
-    scratch(
-        e.clientX-rect.left,
-        e.clientY-rect.top
-    );
-
-});
-
-// -----------------------
-// Mobile Touch Support
-// -----------------------
-
-canvas.addEventListener("touchstart",(e)=>{
-
-    scratching = true;
-
-    e.preventDefault();
-
-});
-
-canvas.addEventListener("touchend",()=>{
-
-    scratching = false;
-
-    checkScratch();
-
-});
-
-canvas.addEventListener("touchmove",(e)=>{
-
-    if(!scratching) return;
-
-    e.preventDefault();
-
-    const rect = canvas.getBoundingClientRect();
-
-    const touch = e.touches[0];
-
-    scratch(
-        touch.clientX-rect.left,
-        touch.clientY-rect.top
-    );
-
-});
-
-// -----------------------
-// Remove Layer After 60%
-// -----------------------
-
-function checkScratch(){
-
-    const pixels = ctx.getImageData(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    let transparent = 0;
-
-    for(let i=3;i<pixels.data.length;i+=4){
-
-        if(pixels.data[i]===0){
-
-            transparent++;
-
+document.addEventListener("DOMContentLoaded", () => {
+    updateMusicUI();
+    
+    // Optional: Add keyboard support for music control
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "m" || e.key === "M") {
+            musicToggle.click();
         }
+    });
+});
 
+// ================================
+// Music Metadata
+// ================================
+
+music.addEventListener("loadedmetadata", () => {
+    console.log("Music loaded and ready to play");
+});
+
+music.addEventListener("error", () => {
+    console.log("Error loading music file. Ensure music.mp3 exists in the same directory.");
+});
+
+// Update UI when music ends
+music.addEventListener("ended", () => {
+    if (music.loop) {
+        console.log("Music loop started");
     }
-
-    const percent =
-        transparent /
-        (canvas.width*canvas.height);
-
-    if(percent>0.60){
-
-        canvas.style.transition="1s";
-
-        canvas.style.opacity="0";
-
-        setTimeout(()=>{
-
-            canvas.style.display="none";
-
-        },1000);
-
-    }
-
-}
+});
