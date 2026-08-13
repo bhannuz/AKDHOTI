@@ -362,6 +362,17 @@ body {
     }
 }
 
+@keyframes scratchFlowerFall {
+    0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(150px) rotate(360deg);
+    }
+}
+
 .scratch-hint.hidden {
     display: none;
 }
