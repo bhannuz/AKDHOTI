@@ -394,6 +394,81 @@ body {
     margin-top: 30px;
 }
 
+/* Door Container */
+.door-container {
+    perspective: 1000px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.door {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    height: 60px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease-in-out;
+}
+
+.door.open {
+    transform: rotateY(180deg);
+}
+
+.door-front,
+.door-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    backface-visibility: hidden;
+}
+
+.door-front {
+    background: linear-gradient(135deg, #8b7355, #a0845f);
+    color: white;
+    box-shadow: 0 6px 15px rgba(139, 115, 85, 0.3);
+    transition: all 0.3s ease;
+}
+
+.door:hover .door-front {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(139, 115, 85, 0.4);
+}
+
+.door-back {
+    background: linear-gradient(135deg, #c9a961, #d4c5a9);
+    transform: rotateY(180deg);
+}
+
+.location-link {
+    display: inline-block;
+    padding: 14px 32px;
+    text-decoration: none;
+    color: #5c4a35;
+    border-radius: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.location-link:hover {
+    transform: scale(1.05);
+    color: #8b7355;
+}
+
+/* Original Button Styling */
+
 .btn {
     display: inline-block;
     padding: 14px 32px;

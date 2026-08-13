@@ -157,9 +157,9 @@ function attachScratchEvents() {
 function scratchPoint(x, y) {
     if (!ctx) return;
     
-    // Larger brush size (50px radius = 100px diameter)
+    // Much larger brush size (80px radius = 160px diameter)
     ctx.beginPath();
-    ctx.arc(x, y, 50, 0, Math.PI * 2);
+    ctx.arc(x, y, 80, 0, Math.PI * 2);
     ctx.fill();
 }
 
@@ -235,7 +235,29 @@ function startParticles() {
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Page loaded. Music will auto-play...");
+    
+    // Setup interactive door
+    setupDoor();
 });
+
+// ================================
+// Interactive Door for Location
+// ================================
+
+function setupDoor() {
+    const door = document.getElementById("locationDoor");
+    if (!door) return;
+    
+    door.addEventListener("click", () => {
+        door.classList.toggle("open");
+    });
+    
+    // Also make door clickable on touch
+    door.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        door.classList.toggle("open");
+    });
+}
 
 music.addEventListener("loadedmetadata", () => {
     console.log("Music loaded and ready to play");
