@@ -151,7 +151,7 @@ function attachScratchEvents() {
 }
 
 // ================================
-// Scratch Drawing (50px brush + Falling Flowers)
+// Scratch Drawing (50px brush)
 // ================================
 
 function scratchPoint(x, y) {
@@ -161,30 +161,6 @@ function scratchPoint(x, y) {
     ctx.beginPath();
     ctx.arc(x, y, 50, 0, Math.PI * 2);
     ctx.fill();
-    
-    // Create falling flowers while scratching
-    createScratchFlower(x, y);
-}
-
-function createScratchFlower(x, y) {
-    // Create falling red rose petals
-    const particle = document.createElement("div");
-    particle.className = "scratch-flower";
-    particle.innerHTML = '🌹';  // Only red roses
-    particle.style.left = x + "px";
-    particle.style.top = y + "px";
-    particle.style.fontSize = (14 + Math.random() * 10) + "px";
-    particle.style.opacity = (0.8 + Math.random() * 0.2).toString();
-    particle.style.position = "absolute";
-    particle.style.pointerEvents = "none";
-    particle.style.animation = "scratchFlowerFall 2s ease-in forwards";
-    particle.style.zIndex = "45";
-    
-    card.appendChild(particle);
-    
-    setTimeout(() => {
-        particle.remove();
-    }, 2000);
 }
 
 // ================================
