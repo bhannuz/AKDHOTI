@@ -215,6 +215,7 @@ function startParticles() {
         particle.className = "particle";
         particle.innerHTML = '🌹';  // Only red roses
         particle.style.left = Math.random() * 100 + "vw";
+        particle.style.top = "-30px";  // Start above viewport
         particle.style.animationDuration = (3 + Math.random() * 3) + "s";
         particle.style.opacity = (0.3 + Math.random() * 0.4).toString();
         particlesContainer.appendChild(particle);
@@ -246,17 +247,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function setupDoor() {
     const door = document.getElementById("locationDoor");
-    if (!door) return;
+    const doorElement = door ? door.querySelector(".door") : null;
+    const locationLink = door ? door.querySelector(".location-link") : null;
     
-    door.addEventListener("click", () => {
-        door.classList.toggle("open");
+    if (!door || !doorElement) return;
+    
+    // Click to flip door
+    doorElement.addEventListener("click", (e) => {
+        e.stopPropagation();
+        doorElement.classList.toggle("open");
     });
     
-    // Also make door clickable on touch
-    door.addEventListener("touchstart", (e) => {
+    // Touch to flip door
+    doorElement.addEventListener("touchstart", (e) => {
+        e.stopPropagation();
         e.preventDefault();
-        door.classList.toggle("open");
+        doorElement.classList.toggle("open");
     });
+    
+    // Ensure location link is clickable when door opens
+    if (locationLink) {
+        locationLink.addEventListener("click", (e) => {
+            e.stopPropagation();
+        });
+    }
 }
 
 music.addEventListener("loadedmetadata", () => {
