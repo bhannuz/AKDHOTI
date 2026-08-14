@@ -3,116 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayaan Kumar Mudhelli - Dhoti Ceremony</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Dhoti Ceremony Invitation</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <!-- Envelope Cover -->
-    <div id="cover" class="envelope-cover">
-        <div class="envelope">
+    <div class="container">
+        <!-- The Envelope -->
+        <div class="envelope" id="envelope">
             <div class="envelope-flap"></div>
-            <div class="envelope-body">
-                <p class="seal-text">YOU ARE CORDIALLY INVITED</p>
-            </div>
-        </div>
-        <button id="openBtn" class="open-btn">Click to Open</button>
-    </div>
-
-    <!-- Scratch Layer (reveals invitation) -->
-    <div id="scratchContainer" class="scratch-container">
-        <canvas id="scratchLayer"></canvas>
-        <div class="scratch-hint">✨ Scratch to Reveal ✨</div>
-    </div>
-
-    <!-- Invitation Card -->
-    <div class="invitation-card">
-        
-        <!-- Decorative top border -->
-        <div class="card-header">
-            <div class="decorative-line"></div>
-            <p class="header-text">together with</p>
-            <div class="decorative-line"></div>
+            <div class="envelope-body"></div>
         </div>
 
-        <!-- Parents Names -->
-        <div class="parents">
-            <h3>Mudhelli Bhanu Prasad</h3>
-            <span class="and">&</span>
-            <h3>Mudhelli Prashanthi</h3>
-            <p class="grandmother">and Grandmother <br><strong>Mudhelli Rama Devi</strong></p>
-        </div>
-
-        <!-- Child Name and Event -->
-        <div class="child-section">
-            <p class="request">request the honour of your presence at the</p>
-            <h1 class="event-name">Dhoti Ceremony</h1>
-            <p class="child-name">of</p>
-            <h2>Ayaan Kumar Mudhelli</h2>
-        </div>
-
-        <!-- Photo -->
-        <div class="photo-container">
-            <img src="Ayaan.jpeg" alt="Ayaan Kumar Mudhelli" class="child-photo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 140 140%22%3E%3Ccircle cx=%2270%22 cy=%2270%22 r=%2268%22 fill=%22%23f5f1e8%22 stroke=%22%23c9a961%22 stroke-width=%224%22/%3E%3Ctext x=%2270%22 y=%2275%22 font-size=%2216%22 text-anchor=%22middle%22 fill=%22%238b7355%22%3EAyaan%3C/text%3E%3C/svg%3E'">
-        </div>
-
-        <!-- Event Details -->
-        <div class="event-details">
-            <div class="detail-item">
-                <span class="detail-label">📅 Date</span>
-                <span class="detail-value">Saturday, 22 August 2026</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">🕐 Time</span>
-                <span class="detail-value">12:00 Noon</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">📍 Venue</span>
-                <span class="detail-value">Ithihas, Hyderabad</span>
-            </div>
-        </div>
-
-        <!-- Closing Message -->
-        <div class="closing-message">
-            <p class="blessing">Your gracious presence and blessings<br>will make this occasion truly memorable</p>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-            <button id="locationBtn" class="btn btn-location">📍 Location</button>
-            <a class="btn btn-primary" href="https://wa.me/?text=You are invited to Ayaan Kumar Mudhelli's Dhoti Ceremony on 22 August 2026 at 12:00 PM, Ithihas, Hyderabad." target="_blank">
-                📲 Share via WhatsApp
-            </a>
-        </div>
-
-    </div>
-
-    <!-- Location Modal -->
-    <div id="locationModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" id="closeModal">&times;</button>
-            <h3>📍 Venue Location</h3>
-            <p class="venue-name">Ithihas</p>
-            <p class="venue-address">Hyderabad</p>
-            <a href="https://maps.google.com/?q=Ithihas Hyderabad" target="_blank" class="btn btn-location">
-                🗺️ Open in Google Maps
-            </a>
+        <!-- The Invitation Card (Hidden initially) -->
+        <div class="invitation-card" id="invitation">
+            <h1>Dhoti Ceremony</h1>
+            <p>We cordially invite you to celebrate our son's Dhoti Ceremony.</p>
+            <p><strong>Date:</strong> 25th September 2026</p>
+            <p><strong>Venue:</strong> Grand Ballroom, Hyderabad</p>
+            <button onclick="window.print()">Save Invitation</button>
         </div>
     </div>
-
-    <!-- Background Music -->
-    <audio id="music" loop preload="metadata">
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- Particle Effects -->
-    <div id="particles"></div>
 
     <script src="script.js"></script>
-
 </body>
 </html>
