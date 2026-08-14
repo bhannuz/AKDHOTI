@@ -12,8 +12,25 @@
 
 <body>
 
-    <!-- Single Page Invitation Card -->
-    <div class="invitation-card active">
+    <!-- Envelope Cover -->
+    <div id="cover" class="envelope-cover">
+        <div class="envelope">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body">
+                <p class="seal-text">YOU ARE CORDIALLY INVITED</p>
+            </div>
+        </div>
+        <button id="openBtn" class="open-btn">Click to Open</button>
+    </div>
+
+    <!-- Scratch Layer (reveals invitation) -->
+    <div id="scratchContainer" class="scratch-container">
+        <canvas id="scratchLayer"></canvas>
+        <div class="scratch-hint">✨ Scratch to Reveal ✨</div>
+    </div>
+
+    <!-- Invitation Card -->
+    <div class="invitation-card">
         
         <!-- Decorative top border -->
         <div class="card-header">
