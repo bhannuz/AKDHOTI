@@ -4,7 +4,7 @@ const wrapper = document.querySelector('.card-wrapper');
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
 
-// Match canvas dimensions to wrapper
+// Match canvas dimensions to central panel wrapper
 canvas.width = wrapper.offsetWidth;
 canvas.height = wrapper.offsetHeight;
 
@@ -12,9 +12,9 @@ let isScratching = false;
 let musicStarted = false;
 let cleared = false;
 
-// --- DRAW ENVELOPE OVERLAY WITH EXPANDED SCRATCH AREA ---
+// --- DRAW ENVELOPE OVERLAY MATCHING ROYAL THEME ---
 function drawEnvelope() {
-    context.fillStyle = '#6b0f1a';
+    context.fillStyle = '#4a050c';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     context.strokeStyle = '#d4af37';
@@ -37,39 +37,39 @@ function drawEnvelope() {
     const centerX = canvas.width / 2;
     const centerY = canvas.height * 0.42;
     
-    // Gold Seal Emblem
+    // Gold Wax Seal Emblem
     context.fillStyle = '#d4af37';
     context.beginPath();
-    context.arc(centerX, centerY, 42, 0, Math.PI * 2);
+    context.arc(centerX, centerY, 38, 0, Math.PI * 2);
     context.fill();
 
     context.strokeStyle = '#fff8dc';
     context.lineWidth = 2;
     context.beginPath();
-    context.arc(centerX, centerY, 38, 0, Math.PI * 2);
+    context.arc(centerX, centerY, 34, 0, Math.PI * 2);
     context.stroke();
 
-    context.fillStyle = '#6b0f1a';
-    context.font = 'bold 22px serif';
+    context.fillStyle = '#3d0308';
+    context.font = 'bold 20px serif';
     context.textAlign = 'center';
-    context.fillText('✉️', centerX, centerY + 8);
+    context.fillText('✉️', centerX, centerY + 7);
 
-    // Banner Text
+    // Prompt Banner
     const bannerY = canvas.height - 110;
     
-    context.fillStyle = 'rgba(0, 0, 0, 0.4)';
-    context.fillRect(20, bannerY, canvas.width - 40, 60);
+    context.fillStyle = 'rgba(0, 0, 0, 0.45)';
+    context.fillRect(15, bannerY, canvas.width - 30, 60);
     context.strokeStyle = '#d4af37';
     context.lineWidth = 1.5;
-    context.strokeRect(20, bannerY, canvas.width - 40, 60);
+    context.strokeRect(15, bannerY, canvas.width - 30, 60);
 
     context.fillStyle = '#ffffff';
-    context.font = 'bold 16px Marcellus, sans-serif';
+    context.font = 'bold 15px Marcellus, sans-serif';
     context.fillText('✨ SCRATCH FULL ENVELOPE ✨', centerX, bannerY + 28);
     
     context.fillStyle = '#d4af37';
-    context.font = '12px Marcellus, sans-serif';
-    context.fillText('Rub across the screen to reveal details', centerX, bannerY + 48);
+    context.font = '11px Marcellus, sans-serif';
+    context.fillText('Rub across screen to reveal invitation', centerX, bannerY + 48);
 }
 
 drawEnvelope();
@@ -113,13 +113,12 @@ function scratch(e) {
     const { x, y } = getCoordinates(e);
     context.globalCompositeOperation = 'destination-out';
     context.beginPath();
-    context.arc(x, y, 26, 0, Math.PI * 2); // Standardized brush radius
+    context.arc(x, y, 26, 0, Math.PI * 2);
     context.fill();
 
     checkScratchPercentage();
 }
 
-// Higher threshold (60%) so users scratch much more of the area before auto-clear
 function checkScratchPercentage() {
     if (cleared) return;
 
@@ -132,7 +131,7 @@ function checkScratchPercentage() {
     }
 
     const totalSampled = pixels.length / 16;
-    if (transparentPixels / totalSampled > 0.60) {
+    if (transparentPixels / totalSampled > 0.55) {
         cleared = true;
         canvas.style.opacity = '0';
         setTimeout(() => {
