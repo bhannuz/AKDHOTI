@@ -3,36 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mudhelli Ayaan Kumar - Dhoti Ceremony</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Dhoti Ceremony - Mudhelli Ayaan Kumar</title>
+    <!-- Royal Traditional Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Marcellus&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
-    <div class="container">
-        <!-- The Invitation Card (Hidden initially, perfectly centered) -->
-        <div class="invitation-card" id="invitation">
-            <h2>Dhoti Ceremony</h2>
-            <p class="subtitle">You are cordially invited to celebrate the auspicious Dhoti Ceremony of our son</p>
-            
-            <h3 class="child-name">Mudhelli Ayaan Kumar</h3>
-            
-            <div class="details">
-                <p><strong>Date:</strong> 12-Sep-2026</p>
-                <p><strong>Venue:</strong> Grand Ballroom, Hyderabad</p>
-            </div>
+    <!-- Background Music Control -->
+    <button id="musicToggle" class="music-btn" aria-label="Toggle Music">🔊 Music On</button>
+    <audio id="bgMusic" loop preload="auto">
+        <!-- High-quality royalty free traditional instrumental flute audio -->
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=indian-traditional-flute-112328.mp3" type="audio/mpeg">
+    </audio>
 
-            <div class="parents">
-                <p><em>With best compliments from:</em></p>
-                <p><strong>Mudhelli Prashanthi & Mudhelli Bhanu Prasad</strong></p>
-            </div>
+    <div class="card-wrapper">
+        <!-- Interactive Envelope Scratch Overlay -->
+        <canvas id="scratchCanvas"></canvas>
 
-            <button onclick="window.print()">Save Invitation</button>
+        <!-- Grand Traditional Invitation Card -->
+        <div class="invitation-card">
+            <div class="card-inner">
+                <div class="blessing">|| Shree Ganeshay Namah ||</div>
+                
+                <div class="header-motif">🐘 🪔 🐘</div>
+                
+                <h2 class="event-title">Dhoti Ceremony</h2>
+                
+                <p class="subtitle">With the blessings of elders and Almighty, we cordially invite you to grace the auspicious Dhoti Ceremony of our beloved son</p>
+                
+                <h1 class="child-name">Mudhelli Ayaan Kumar</h1>
+                
+                <div class="divider">✦ ✦ ✦</div>
+                
+                <div class="details-box">
+                    <p class="detail-item"><strong>📅 DATE</strong><br>Saturday, 12th September 2026</p>
+                    <p class="detail-item"><strong>📍 VENUE</strong><br>Grand Ballroom, Hyderabad</p>
+                </div>
+
+                <div class="parents-box">
+                    <p class="compliments">Soliciting your esteemed presence and blessings:</p>
+                    <p class="parents-names">Mudhelli Prashanthi<br>& Mudhelli Bhanu Prasad</p>
+                </div>
+
+                <button class="save-btn" onclick="window.print()">🎎 Save Invitation</button>
+            </div>
         </div>
-
-        <!-- The Scratch Overlay (Canvas) -->
-        <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=3"></script>
 </body>
 </html>
