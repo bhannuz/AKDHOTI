@@ -12,19 +12,8 @@
 
 <body>
 
-    <!-- Opening Envelope Cover -->
-    <div id="cover" class="envelope-cover">
-        <div class="envelope">
-            <div class="envelope-flap"></div>
-            <div class="envelope-body">
-                <p class="seal-text">YOU ARE CORDIALLY INVITED</p>
-            </div>
-        </div>
-        <button id="openBtn" class="open-btn">Open Invitation</button>
-    </div>
-
-    <!-- Invitation Card -->
-    <div id="card" class="invitation-card">
+    <!-- Single Page Invitation Card -->
+    <div class="invitation-card active">
         
         <!-- Decorative top border -->
         <div class="card-header">
@@ -50,21 +39,23 @@
         </div>
 
         <!-- Photo -->
-       <img src="Ayaan.jpeg" alt="Ayaan Kumar Mudhelli" class="child-photo">
+        <div class="photo-container">
+            <img src="Ayaan.jpeg" alt="Ayaan Kumar Mudhelli" class="child-photo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 140 140%22%3E%3Ccircle cx=%2270%22 cy=%2270%22 r=%2268%22 fill=%22%23f5f1e8%22 stroke=%22%23c9a961%22 stroke-width=%224%22/%3E%3Ctext x=%2270%22 y=%2275%22 font-size=%2216%22 text-anchor=%22middle%22 fill=%22%238b7355%22%3EAyaan%3C/text%3E%3C/svg%3E'">
+        </div>
 
         <!-- Event Details -->
         <div class="event-details">
             <div class="detail-item">
-                <span class="detail-label">Date</span>
-                <span class="detail-value">Saturday, the twenty-second of August<br>Two thousand twenty-six</span>
+                <span class="detail-label">📅 Date</span>
+                <span class="detail-value">Saturday, 22 August 2026</span>
             </div>
             <div class="detail-item">
-                <span class="detail-label">Time</span>
-                <span class="detail-value">12:00 in the afternoon</span>
+                <span class="detail-label">🕐 Time</span>
+                <span class="detail-value">12:00 Noon</span>
             </div>
             <div class="detail-item">
-                <span class="detail-label">Venue</span>
-                <span class="detail-value">Ithihas<br>Hyderabad</span>
+                <span class="detail-label">📍 Venue</span>
+                <span class="detail-value">Ithihas, Hyderabad</span>
             </div>
         </div>
 
@@ -73,36 +64,32 @@
             <p class="blessing">Your gracious presence and blessings<br>will make this occasion truly memorable</p>
         </div>
 
-        <!-- Decorative bottom border -->
-        <div class="card-footer">
-            <div class="decorative-line"></div>
-        </div>
-
         <!-- Action Buttons -->
         <div class="action-buttons">
-            <div class="door-container">
-                <div class="door" id="locationDoor">
-                    <div class="door-front">🚪</div>
-                    <div class="door-back">
-                        <a href="https://maps.google.com/?q=Ithihas Hyderabad" target="_blank" class="location-link">📍 VIEW LOCATION</a>
-                    </div>
-                </div>
-            </div>
+            <button id="locationBtn" class="btn btn-location">📍 Location</button>
             <a class="btn btn-primary" href="https://wa.me/?text=You are invited to Ayaan Kumar Mudhelli's Dhoti Ceremony on 22 August 2026 at 12:00 PM, Ithihas, Hyderabad." target="_blank">
-                📲 Share
+                📲 Share via WhatsApp
             </a>
         </div>
 
-        <!-- Interactive Scratch/Rub Layer -->
-        <canvas id="scratchLayer"></canvas>
-        <div class="scratch-hint">✨ Rub to Reveal ✨</div>
+    </div>
 
+    <!-- Location Modal -->
+    <div id="locationModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h3>📍 Venue Location</h3>
+            <p class="venue-name">Ithihas</p>
+            <p class="venue-address">Hyderabad</p>
+            <a href="https://maps.google.com/?q=Ithihas Hyderabad" target="_blank" class="btn btn-location">
+                🗺️ Open in Google Maps
+            </a>
+        </div>
     </div>
 
     <!-- Background Music -->
     <audio id="music" loop preload="metadata">
         <source src="music.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
     </audio>
 
     <!-- Particle Effects -->

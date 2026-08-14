@@ -1,5 +1,5 @@
 /* ================================
-   Western-Style Invitation Card
+   Single-Page Invitation Card
    ================================ */
 
 * {
@@ -8,146 +8,48 @@
     box-sizing: border-box;
 }
 
-body {
-    background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc8 50%, #d4c5a9 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Cormorant Garamond', serif;
-    overflow-x: hidden;
-}
-
-/* ================================
-   Envelope Cover
-   ================================ */
-
-.envelope-cover {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
+html, body {
     width: 100%;
-    min-height: 100vh;
-    padding: 20px;
-    z-index: 10;
-}
-
-.envelope {
-    width: 100%;
-    max-width: 400px;
-    perspective: 1000px;
-}
-
-.envelope-body {
-    width: 100%;
-    height: 250px;
-    background: linear-gradient(to bottom, #f5f1e8, #ede5d8);
-    border: 3px solid #8b7355;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    position: relative;
+    height: 100%;
     overflow: hidden;
 }
 
-.envelope-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 2px,
-        rgba(139, 115, 85, 0.03) 2px,
-        rgba(139, 115, 85, 0.03) 4px
-    );
-    pointer-events: none;
-}
-
-.envelope-flap {
-    width: 100%;
-    height: 0;
-    border-left: 200px solid transparent;
-    border-right: 200px solid transparent;
-    border-top: 125px solid #d4c5a9;
-    margin-bottom: -3px;
-    position: relative;
-    animation: flapOpen 0.8s ease-out forwards;
-    transform-origin: top;
-}
-
-@keyframes flapOpen {
-    from {
-        transform: rotateX(0deg);
-        border-top-color: #d4c5a9;
-    }
-    to {
-        transform: rotateX(-30deg);
-        border-top-color: #c9a961;
-    }
-}
-
-.seal-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: #5c4a35;
-    letter-spacing: 4px;
-    text-align: center;
-    position: relative;
-    z-index: 2;
-}
-
-.open-btn {
-    padding: 18px 45px;
-    background: linear-gradient(135deg, #8b7355, #a0845f);
-    color: white;
-    border: none;
-    border-radius: 50px;
+body {
+    background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc8 50%, #d4c5a9 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    box-shadow: 0 8px 20px rgba(139, 115, 85, 0.3);
-    text-transform: uppercase;
+    position: relative;
 }
 
-.open-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(139, 115, 85, 0.4);
-    background: linear-gradient(135deg, #a0845f, #8b7355);
-}
-
-.open-btn:active {
-    transform: translateY(-1px);
-}
+/* Removed envelope - using single page directly */
 
 /* ================================
-   Invitation Card
+   Invitation Card - Single Page
    ================================ */
 
 .invitation-card {
     display: none;
     width: 95%;
-    max-width: 500px;
+    height: 95vh;
+    max-width: 450px;
     background: linear-gradient(to bottom, #faf8f3, #f5f1e8);
-    padding: 50px 40px;
+    padding: 20px 25px;
     border: 2px solid #8b7355;
     border-radius: 8px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
     text-align: center;
-    animation: cardAppear 0.8s ease-out;
+    animation: cardAppear 0.6s ease-out;
     position: relative;
     z-index: 10;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.invitation-card.active {
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes cardAppear {
@@ -166,8 +68,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    margin-bottom: 30px;
+    gap: 10px;
+    margin-bottom: 12px;
 }
 
 .decorative-line {
@@ -178,9 +80,9 @@ body {
 
 .header-text {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 14px;
+    font-size: 12px;
     color: #8b7355;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     font-weight: 300;
     text-transform: uppercase;
     white-space: nowrap;
@@ -188,33 +90,33 @@ body {
 
 /* Parents Names */
 .parents {
-    margin-bottom: 35px;
+    margin-bottom: 12px;
 }
 
 .parents h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 700;
     color: #5c4a35;
-    margin: 8px 0;
-    letter-spacing: 1px;
+    margin: 4px 0;
+    letter-spacing: 0.5px;
 }
 
 .and {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
+    font-size: 14px;
     color: #8b7355;
     display: block;
-    margin: 12px 0;
+    margin: 6px 0;
     font-style: italic;
 }
 
 .grandmother {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 14px;
+    font-size: 12px;
     color: #8b7355;
-    margin-top: 15px;
-    line-height: 1.8;
+    margin-top: 6px;
+    line-height: 1.6;
     font-weight: 300;
 }
 
@@ -224,62 +126,69 @@ body {
 
 /* Child Section */
 .child-section {
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .request {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 14px;
+    font-size: 12px;
     color: #8b7355;
     font-weight: 300;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
 }
 
 .event-name {
     font-family: 'Playfair Display', serif;
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 900;
     color: #5c4a35;
-    margin: 20px 0;
-    letter-spacing: 2px;
+    margin: 8px 0;
+    letter-spacing: 1px;
     text-transform: uppercase;
 }
 
 .child-name {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
+    font-size: 11px;
     color: #8b7355;
     font-style: italic;
-    margin: 20px 0 15px;
-    letter-spacing: 2px;
+    margin: 6px 0 4px;
+    letter-spacing: 1px;
 }
 
 .child-section h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 700;
     color: #5c4a35;
-    margin: 0;
-    letter-spacing: 1px;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.5px;
+}
+
+/* Photo Container */
+.photo-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
 }
 
 /* Child Photo */
 .child-photo {
-    width: 140px;
-    height: 140px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid #c9a961;
-    margin: 30px auto;
     display: block;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    background: #f5f1e8;
 }
 
 /* Event Details */
 .event-details {
-    margin: 40px 0;
-    padding: 30px 0;
+    margin: 8px 0;
+    padding: 10px 0;
     border-top: 1px solid #d4c5a9;
     border-bottom: 1px solid #d4c5a9;
 }
@@ -287,41 +196,41 @@ body {
 .detail-item {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin: 20px 0;
+    gap: 3px;
+    margin: 8px 0;
 }
 
 .detail-label {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
+    font-size: 11px;
     color: #8b7355;
-    letter-spacing: 3px;
+    letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: 600;
 }
 
 .detail-value {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
+    font-size: 13px;
     color: #5c4a35;
     font-weight: 300;
-    line-height: 1.8;
-    letter-spacing: 0.5px;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
 }
 
 /* Closing Message */
 .closing-message {
-    margin: 35px 0 25px;
+    margin: 8px 0;
 }
 
 .blessing {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 15px;
+    font-size: 12px;
     color: #8b7355;
     font-weight: 300;
-    line-height: 1.9;
+    line-height: 1.7;
     font-style: italic;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 /* ================================
@@ -392,110 +301,153 @@ body {
 .action-buttons {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 30px;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
-
-/* Door Container */
-.door-container {
-    perspective: 1000px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.door {
-    position: relative;
-    width: 100%;
-    max-width: 300px;
-    height: 60px;
-    cursor: pointer;
-    transform-style: preserve-3d;
-    transition: transform 0.6s ease-in-out;
-}
-
-.door.open {
-    transform: rotateY(180deg);
-}
-
-.door-front,
-.door-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50px;
-    font-size: 24px;
-    font-weight: bold;
-    backface-visibility: hidden;
-}
-
-.door-front {
-    background: linear-gradient(135deg, #8b7355, #a0845f);
-    color: white;
-    box-shadow: 0 6px 15px rgba(139, 115, 85, 0.3);
-    transition: all 0.3s ease;
-}
-
-.door:hover .door-front {
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(139, 115, 85, 0.4);
-}
-
-.door-back {
-    background: linear-gradient(135deg, #c9a961, #d4c5a9);
-    transform: rotateY(180deg);
-}
-
-.location-link {
-    display: inline-block;
-    padding: 14px 32px;
-    text-decoration: none;
-    color: #5c4a35;
-    border-radius: 50px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-}
-
-.location-link:hover {
-    transform: scale(1.05);
-    color: #8b7355;
-}
-
-/* Original Button Styling */
 
 .btn {
     display: inline-block;
-    padding: 14px 32px;
+    padding: 12px 24px;
     text-decoration: none;
-    border-radius: 50px;
+    border-radius: 6px;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     letter-spacing: 1px;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     text-transform: uppercase;
     border: none;
     cursor: pointer;
+    text-align: center;
+    width: 100%;
 }
 
 .btn-primary {
     background: linear-gradient(135deg, #8b7355, #a0845f);
     color: white;
-    box-shadow: 0 6px 15px rgba(139, 115, 85, 0.3);
+    box-shadow: 0 6px 15px rgba(139, 115, 85, 0.25);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(139, 115, 85, 0.4);
-    background: linear-gradient(135deg, #a0845f, #8b7355);
+    box-shadow: 0 8px 20px rgba(139, 115, 85, 0.35);
+}
+
+.btn-location {
+    background: linear-gradient(135deg, #c9a961, #d4b873);
+    color: #5c4a35;
+    box-shadow: 0 6px 15px rgba(201, 169, 97, 0.25);
+}
+
+.btn-location:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(201, 169, 97, 0.35);
+}
+
+/* ================================
+   Location Modal
+   ================================ */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: linear-gradient(to bottom, #faf8f3, #f5f1e8);
+    padding: 30px 25px;
+    border: 2px solid #8b7355;
+    border-radius: 12px;
+    max-width: 350px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #8b7355;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    color: #5c4a35;
+}
+
+.modal-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #5c4a35;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+.venue-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #5c4a35;
+    margin: 10px 0 5px;
+}
+
+.venue-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: #8b7355;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.modal-content .btn {
+    margin-top: 5px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* ================================

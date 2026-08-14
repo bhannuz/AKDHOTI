@@ -1,288 +1,131 @@
-// ================================
-// Western-Style Invitation
-// Auto-Play Music + Interactive Scratch with Falling Flowers
+// Single-Page Invitation Script
 // ================================
 
-const openBtn = document.getElementById("openBtn");
-const cover = document.getElementById("cover");
-const card = document.getElementById("card");
-const scratchLayer = document.getElementById("scratchLayer");
-const scratchHint = document.querySelector(".scratch-hint");
-const music = document.getElementById("music");
-const particlesContainer = document.getElementById("particles");
-
-let isScratchSetup = false;
-let isScratchingActive = false;
-const ctx = scratchLayer ? scratchLayer.getContext("2d") : null;
-
-// ================================
-// Auto-Play Music on Page Load
-// ================================
-
-function autoPlayMusic() {
-    music.play().catch((error) => {
-        console.log("Auto-play blocked by browser. Music will play when user interacts.");
-        document.addEventListener("click", () => {
-            music.play().catch((err) => {
-                console.log("Music playback failed:", err);
-            });
-        }, { once: true });
-    });
-}
-
-// Try to play music when page loads
-window.addEventListener("load", () => {
-    setTimeout(autoPlayMusic, 500);
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    initializeInvitation();
 });
 
-// Also try on first user interaction
-document.addEventListener("click", () => {
-    if (music.paused) {
-        music.play().catch(() => {
-            console.log("Music playback failed");
-        });
+// Main initialization function
+function initializeInvitation() {
+    // Show invitation card immediately
+    const card = document.querySelector('.invitation-card');
+    if (card) {
+        card.classList.add('active');
     }
-}, { once: true });
 
-// ================================
-// Open Invitation
-// ================================
-
-openBtn.addEventListener("click", () => {
-    cover.style.display = "none";
-    card.style.display = "block";
-    
-    setupScratchLayer();
-    
-    if (music.paused) {
-        music.play().catch(() => {
-            console.log("Music playback blocked");
-        });
-    }
-    
+    // Start particles falling
     startParticles();
-});
 
-// ================================
-// Scratch Layer Setup
-// ================================
-
-function setupScratchLayer() {
-    if (!scratchLayer || isScratchSetup) return;
-    
-    scratchLayer.width = card.offsetWidth;
-    scratchLayer.height = card.offsetHeight;
-    
-    const gradient = ctx.createLinearGradient(0, 0, scratchLayer.width, scratchLayer.height);
-    gradient.addColorStop(0, "#d4c5a9");
-    gradient.addColorStop(1, "#c9a961");
-    
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, scratchLayer.width, scratchLayer.height);
-    
-    ctx.globalAlpha = 0.1;
-    ctx.fillStyle = "#8b7355";
-    for (let i = 0; i < scratchLayer.width; i += 20) {
-        for (let j = 0; j < scratchLayer.height; j += 20) {
-            ctx.fillRect(i, j, 10, 10);
-        }
-    }
-    ctx.globalAlpha = 1;
-    
-    ctx.fillStyle = "rgba(245, 241, 232, 0.9)";
-    ctx.font = "bold 20px 'Playfair Display', serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText("✨ Rub to Reveal ✨", scratchLayer.width / 2, scratchLayer.height / 2);
-    
-    ctx.globalCompositeOperation = "destination-out";
-    
-    isScratchSetup = true;
-    attachScratchEvents();
+    // Setup modal for location
+    setupLocationModal();
 }
 
 // ================================
-// Scratch Events
-// ================================
-
-function attachScratchEvents() {
-    scratchLayer.addEventListener("mousedown", () => {
-        isScratchingActive = true;
-    });
-    
-    scratchLayer.addEventListener("mouseup", () => {
-        isScratchingActive = false;
-        checkScratchProgress();
-    });
-    
-    scratchLayer.addEventListener("mousemove", (e) => {
-        if (!isScratchingActive) return;
-        const rect = scratchLayer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        scratchPoint(x, y);
-    });
-    
-    scratchLayer.addEventListener("mouseleave", () => {
-        isScratchingActive = false;
-    });
-    
-    scratchLayer.addEventListener("touchstart", (e) => {
-        isScratchingActive = true;
-        e.preventDefault();
-    });
-    
-    scratchLayer.addEventListener("touchend", (e) => {
-        isScratchingActive = false;
-        checkScratchProgress();
-        e.preventDefault();
-    });
-    
-    scratchLayer.addEventListener("touchmove", (e) => {
-        if (!isScratchingActive) return;
-        e.preventDefault();
-        
-        const rect = scratchLayer.getBoundingClientRect();
-        const touch = e.touches[0];
-        const x = touch.clientX - rect.left;
-        const y = touch.clientY - rect.top;
-        scratchPoint(x, y);
-    });
-}
-
-// ================================
-// Scratch Drawing (50px brush)
-// ================================
-
-function scratchPoint(x, y) {
-    if (!ctx) return;
-    
-    // Much larger brush size (80px radius = 160px diameter)
-    ctx.beginPath();
-    ctx.arc(x, y, 80, 0, Math.PI * 2);
-    ctx.fill();
-}
-
-// ================================
-// Check Scratch Progress
-// ================================
-
-function checkScratchProgress() {
-    if (!ctx) return;
-    
-    const imageData = ctx.getImageData(0, 0, scratchLayer.width, scratchLayer.height);
-    const data = imageData.data;
-    
-    let transparentPixels = 0;
-    
-    for (let i = 3; i < data.length; i += 4) {
-        if (data[i] === 0) {
-            transparentPixels++;
-        }
-    }
-    
-    const totalPixels = scratchLayer.width * scratchLayer.height;
-    const scratchPercentage = transparentPixels / totalPixels;
-    
-    if (scratchPercentage > 0.50) {
-        revealCard();
-    }
-}
-
-// ================================
-// Reveal Card
-// ================================
-
-function revealCard() {
-    if (!scratchLayer || !scratchLayer.style.transition) {
-        scratchLayer.style.transition = "opacity 0.8s ease-out";
-        scratchLayer.style.opacity = "0";
-        scratchHint.classList.add("hidden");
-        
-        setTimeout(() => {
-            scratchLayer.style.pointerEvents = "none";
-        }, 800);
-    }
-}
-
-// ================================
-// Decorative Particles (Page Load)
+// Particles/Flowers Animation
 // ================================
 
 function startParticles() {
+    const particlesContainer = document.getElementById('particles');
+    if (!particlesContainer) return;
+
+    // Start flower animation immediately and run for 20 seconds
     const interval = setInterval(() => {
-        const particle = document.createElement("div");
-        particle.className = "particle";
-        particle.innerHTML = '🌹';  // Only red roses
-        particle.style.left = Math.random() * 100 + "vw";
-        particle.style.top = "-30px";  // Start above viewport
-        particle.style.animationDuration = (3 + Math.random() * 3) + "s";
-        particle.style.opacity = (0.3 + Math.random() * 0.4).toString();
-        particlesContainer.appendChild(particle);
-        
-        setTimeout(() => {
-            particle.remove();
-        }, 7000);
+        createFlower(particlesContainer);
     }, 400);
-    
+
+    // Stop creating new flowers after 20 seconds
     setTimeout(() => {
         clearInterval(interval);
     }, 20000);
 }
 
-// ================================
-// Initialize
-// ================================
-
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("Page loaded. Music will auto-play...");
+function createFlower(container) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.innerHTML = '🌹'; // Red rose flower
     
-    // Setup interactive door
-    setupDoor();
-});
-
-// ================================
-// Interactive Door for Location
-// ================================
-
-function setupDoor() {
-    const door = document.getElementById("locationDoor");
-    const doorElement = door ? door.querySelector(".door") : null;
-    const locationLink = door ? door.querySelector(".location-link") : null;
+    // Random horizontal position (0-100vw)
+    const randomLeft = Math.random() * 100;
+    particle.style.left = randomLeft + 'vw';
     
-    if (!door || !doorElement) return;
+    // Start from top of screen
+    particle.style.top = '-30px';
     
-    // Click to flip door
-    doorElement.addEventListener("click", (e) => {
-        e.stopPropagation();
-        doorElement.classList.toggle("open");
-    });
+    // Random animation duration (3-6 seconds)
+    const duration = (3 + Math.random() * 3);
+    particle.style.animationDuration = duration + 's';
     
-    // Touch to flip door
-    doorElement.addEventListener("touchstart", (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        doorElement.classList.toggle("open");
-    });
+    // Random opacity
+    particle.style.opacity = (0.3 + Math.random() * 0.4).toString();
     
-    // Ensure location link is clickable when door opens
-    if (locationLink) {
-        locationLink.addEventListener("click", (e) => {
-            e.stopPropagation();
-        });
-    }
+    container.appendChild(particle);
+    
+    // Remove particle after animation completes
+    setTimeout(() => {
+        particle.remove();
+    }, duration * 1000);
 }
 
-music.addEventListener("loadedmetadata", () => {
-    console.log("Music loaded and ready to play");
-});
+// ================================
+// Location Modal Handling
+// ================================
 
-music.addEventListener("error", () => {
-    console.log("Error loading music file. Ensure music.mp3 exists in the same directory.");
-});
+function setupLocationModal() {
+    const locationBtn = document.getElementById('locationBtn');
+    const locationModal = document.getElementById('locationModal');
+    const closeModalBtn = document.getElementById('closeModal');
 
-music.addEventListener("ended", () => {
-    if (music.loop) {
-        console.log("Music loop restarted");
+    if (!locationBtn || !locationModal) return;
+
+    // Open modal when location button clicked
+    locationBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        locationModal.classList.add('show');
+    });
+
+    // Close modal when X button clicked
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            locationModal.classList.remove('show');
+        });
     }
-});
+
+    // Close modal when clicking outside the content
+    locationModal.addEventListener('click', (e) => {
+        if (e.target === locationModal) {
+            locationModal.classList.remove('show');
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            locationModal.classList.remove('show');
+        }
+    });
+}
+
+// ================================
+// Optional: Background Music
+// ================================
+
+function initializeMusic() {
+    const audio = document.getElementById('music');
+    if (!audio) return;
+
+    // Autoplay with muted attribute for better browser support
+    audio.muted = true;
+    audio.play().catch(() => {
+        console.log('Autoplay prevented by browser');
+    });
+
+    // Try to unmute after user interaction
+    document.addEventListener('click', () => {
+        audio.muted = false;
+    }, { once: true });
+}
+
+// Call music initialization
+// initializeMusic();
