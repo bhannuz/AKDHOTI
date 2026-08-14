@@ -2,19 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mudhelli Ayaan Kumar - Dhoti Ceremony</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
-        <!-- The Interactive Envelope -->
-        <div class="envelope" id="envelope">
-            <span class="envelope-text">💌 Tap to Open Invitation</span>
-        </div>
-
-        <!-- The Invitation Card -->
+        <!-- The Invitation Card (Hidden initially, perfectly centered) -->
         <div class="invitation-card" id="invitation">
             <h2>Dhoti Ceremony</h2>
             <p class="subtitle">You are cordially invited to celebrate the auspicious Dhoti Ceremony of our son</p>
@@ -31,8 +26,11 @@
                 <p><strong>Mudhelli Prashanthi & Mudhelli Bhanu Prasad</strong></p>
             </div>
 
-            <button onclick="window.print()">Save / Print Invitation</button>
+            <button onclick="window.print()">Save Invitation</button>
         </div>
+
+        <!-- The Scratch Overlay (Canvas) -->
+        <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
     </div>
 
     <script src="script.js"></script>
