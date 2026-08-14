@@ -243,10 +243,10 @@ body {
 @keyframes subtlePulse {
     0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); }
     70% { box-shadow: 0 0 0 8px rgba(212, 175, 55, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+    100% { shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
 }
 
-/* 🍫🧁🧸🌹 Falling Celebration Items Animation 🌹🧸🧁🍫 */
+/* Falling Celebration Items Animation */
 .falling-item {
     position: fixed;
     top: -50px;
