@@ -10,69 +10,52 @@ let isScratching = false;
 let musicStarted = false;
 let cleared = false;
 
-// --- DRAW GRAND ROYAL ENVELOPE OVERLAY WITH PROMINENT TEXT ---
+// --- DRAW GRAND ROYAL ENVELOPE OVERLAY ---
 function drawEnvelope() {
-    // 1. Royal Crimson Envelope Base
     context.fillStyle = '#6b0f1a';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    // 2. Gold Border & Flap Lines
     context.strokeStyle = '#d4af37';
     context.lineWidth = 2;
 
-    // Top Flap Triangle
     context.beginPath();
     context.moveTo(0, 0);
-    context.lineTo(canvas.width / 2, canvas.height * 0.42);
+    context.lineTo(canvas.width / 2, canvas.height * 0.45);
     context.lineTo(canvas.width, 0);
     context.stroke();
 
-    // Bottom Side Lines
     context.beginPath();
     context.moveTo(0, canvas.height);
-    context.lineTo(canvas.width / 2, canvas.height * 0.42);
+    context.lineTo(canvas.width / 2, canvas.height * 0.45);
     context.lineTo(canvas.width, canvas.height);
     context.stroke();
 
     const centerX = canvas.width / 2;
-    const centerY = canvas.height * 0.42;
+    const centerY = canvas.height * 0.45;
     
-    // 3. Gold Wax Seal Emblem
     context.fillStyle = '#d4af37';
     context.beginPath();
-    context.arc(centerX, centerY, 40, 0, Math.PI * 2);
+    context.arc(centerX, centerY, 42, 0, Math.PI * 2);
     context.fill();
 
     context.strokeStyle = '#fff8dc';
     context.lineWidth = 2;
     context.beginPath();
-    context.arc(centerX, centerY, 36, 0, Math.PI * 2);
+    context.arc(centerX, centerY, 38, 0, Math.PI * 2);
     context.stroke();
 
     context.fillStyle = '#6b0f1a';
-    context.font = 'bold 22px serif';
+    context.font = 'bold 20px serif';
     context.textAlign = 'center';
-    context.fillText('✉️', centerX, centerY + 8);
+    context.fillText('✉️', centerX, centerY + 7);
 
-    // 4. PROMINENT "SCRATCH ON ENVELOPE" BANNER TEXT
-    const bannerY = canvas.height - 110;
-    
-    // Banner Background Box
-    context.fillStyle = 'rgba(0, 0, 0, 0.35)';
-    context.fillRect(20, bannerY, canvas.width - 40, 60);
-    context.strokeStyle = '#d4af37';
-    context.lineWidth = 1.5;
-    context.strokeRect(20, bannerY, canvas.width - 40, 60);
-
-    // Primary Banner Text
     context.fillStyle = '#ffffff';
-    context.font = 'bold 16px Marcellus, sans-serif';
-    context.fillText('✨ SCRATCH ON ENVELOPE ✨', centerX, bannerY + 28);
+    context.font = 'bold 15px Marcellus, serif';
+    context.fillText('SCRATCH THE ENVELOPE', centerX, canvas.height - 70);
     
-    // Secondary Sub-text
     context.fillStyle = '#d4af37';
-    context.font = '12px Marcellus, sans-serif';
-    context.fillText('Rub across the screen to reveal details', centerX, bannerY + 48);
+    context.font = '12px Marcellus, serif';
+    context.fillText('to reveal the invitation', centerX, canvas.height - 48);
 }
 
 drawEnvelope();
@@ -122,7 +105,7 @@ function scratch(e) {
     checkScratchPercentage();
 }
 
-// Auto-reveal card & trigger Rose Flower Shower
+// Auto-reveal card after ~45% scratch & trigger Rose Flower Shower
 function checkScratchPercentage() {
     if (cleared) return;
 
@@ -135,13 +118,14 @@ function checkScratchPercentage() {
     }
 
     const totalSampled = pixels.length / 16;
-    if (transparentPixels / totalSampled > 0.40) {
+    if (transparentPixels / totalSampled > 0.45) {
         cleared = true;
         canvas.style.opacity = '0';
         setTimeout(() => {
             canvas.style.display = 'none';
         }, 800);
 
+        // 🌹 Trigger Rose Petal Shower! 🌹
         startRoseShower();
     }
 }
@@ -152,7 +136,7 @@ function startRoseShower() {
     const interval = setInterval(() => {
         createPetal();
         petalsCreated++;
-        if (petalsCreated >= 60) {
+        if (petalsCreated >= 60) { // Creates 60 falling rose petals
             clearInterval(interval);
         }
     }, 90);
