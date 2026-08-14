@@ -1,51 +1,38 @@
-const canvas = document.getElementById('scratchCanvas');
-const context = canvas.getContext('2d');
-const container = document.querySelector('.container');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mudhelli Ayaan Kumar - Dhoti Ceremony</title>
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
 
-// 1. Set canvas size to match its container exactly
-canvas.width = container.offsetWidth;
-canvas.height = container.offsetHeight;
+    <div class="card-wrapper">
+        <!-- The Scratch Overlay Canvas -->
+        <canvas id="scratchCanvas"></canvas>
 
-// 2. Define the "scratchable" surface (e.g., matte gold foil)
-context.fillStyle = '#C0A060'; // Gold color for the foil
-context.fillRect(0, 0, canvas.width, canvas.height);
+        <!-- The Invitation Card Underneath -->
+        <div class="invitation-card">
+            <h2>Dhoti Ceremony</h2>
+            <p class="subtitle">We cordially invite you to celebrate the auspicious occasion of our son</p>
+            
+            <h3 class="child-name">Mudhelli Ayaan Kumar</h3>
+            
+            <div class="details">
+                <p><strong>📅 Date:</strong> 12-Sep-2026</p>
+                <p><strong>📍 Venue:</strong> Grand Ballroom, Hyderabad</p>
+            </div>
 
-// Add text instruction over the foil
-context.fillStyle = '#fff';
-context.font = '24px Arial';
-context.textAlign = 'center';
-context.fillText('SCRATCH HERE TO REVEAL', canvas.width / 2, canvas.height / 2);
+            <div class="parents">
+                <p><em>With best compliments from:</em></p>
+                <p><strong>Mudhelli Prashanthi & Mudhelli Bhanu Prasad</strong></p>
+            </div>
 
-let isScratching = false;
+            <button onclick="window.print()">Save Invitation</button>
+        </div>
+    </div>
 
-// 3. Define the scratch function
-function scratch(x, y) {
-    context.globalCompositeOperation = 'destination-out';
-    context.beginPath();
-    context.arc(x, y, 25, 0, Math.PI * 2); // Defines brush size
-    context.fill();
-}
-
-// 4. Input listeners (Mouse and Touch)
-canvas.addEventListener('mousedown', (e) => { isScratching = true; });
-canvas.addEventListener('mouseup', () => { isScratching = false; });
-canvas.addEventListener('mouseleave', () => { isScratching = false; });
-
-// Touch events (for mobile)
-canvas.addEventListener('touchstart', (e) => { isScratching = true; e.preventDefault(); });
-canvas.addEventListener('touchend', () => { isScratching = false; });
-
-// Movement detection
-canvas.addEventListener('mousemove', (e) => {
-    if (!isScratching) return;
-    const rect = canvas.getBoundingClientRect();
-    scratch(e.clientX - rect.left, e.clientY - rect.top);
-});
-
-canvas.addEventListener('touchmove', (e) => {
-    if (!isScratching) return;
-    const rect = canvas.getBoundingClientRect();
-    const touch = e.touches[0];
-    scratch(touch.clientX - rect.left, touch.clientY - rect.top);
-    e.preventDefault();
-});
+    <script src="script.js?v=2"></script>
+</body>
+</html>
