@@ -166,3 +166,27 @@ body {
     margin-top: 4px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
+
+/* 🌹 Falling Rose Petals Animation 🌹 */
+.rose-petal {
+    position: fixed;
+    top: -50px;
+    z-index: 99;
+    pointer-events: none;
+    user-select: none;
+    animation: roseFall linear forwards;
+}
+
+@keyframes roseFall {
+    0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(50vh) rotate(180deg) translateX(30px);
+    }
+    100% {
+        transform: translateY(105vh) rotate(360deg) translateX(-30px);
+        opacity: 0;
+    }
+}
