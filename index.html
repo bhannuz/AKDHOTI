@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Marcellus&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -39,7 +39,15 @@
                 
                 <div class="details-box">
                     <p class="detail-item"><strong>📅 DATE</strong><br>Saturday, 12th September 2026</p>
-                    <p class="detail-item"><strong>📍 VENUE</strong><br>Grand Ballroom, Hyderabad</p>
+                    
+                    <!-- Interactive Venue Link -->
+                    <a href="https://maps.app.goo.gl/axco1g3UQFD7TJo7A?g_st=awb" target="_blank" class="venue-link">
+                        <div class="venue-item">
+                            <strong>📍 VENUE</strong><br>
+                            Grand Ballroom, Hyderabad
+                            <span class="tap-hint">Tap for Directions ↗</span>
+                        </div>
+                    </a>
                 </div>
 
                 <div class="parents-box">
@@ -47,11 +55,14 @@
                     <p class="parents-names">Mudhelli Prashanthi<br>& Mudhelli Bhanu Prasad</p>
                 </div>
 
-                <button class="save-btn" onclick="window.print()">Save Invitation</button>
+                <!-- Innovative Location Button -->
+                <a href="https://maps.app.goo.gl/axco1g3UQFD7TJo7A?g_st=awb" target="_blank" class="location-btn">
+                    <span class="pulse-pin">📍</span> Get Event Location
+                </a>
             </div>
         </div>
     </div>
 
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
 </body>
 </html>
