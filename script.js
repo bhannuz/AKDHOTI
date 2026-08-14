@@ -4,7 +4,6 @@ const wrapper = document.querySelector('.card-wrapper');
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
 
-// Match canvas dimensions to central panel wrapper
 canvas.width = wrapper.offsetWidth;
 canvas.height = wrapper.offsetHeight;
 
@@ -12,7 +11,10 @@ let isScratching = false;
 let musicStarted = false;
 let cleared = false;
 
-// --- DRAW ENVELOPE OVERLAY MATCHING ROYAL THEME ---
+// Array of celebratory items (Chocolates, Pastries, Teddy Bears, Flowers)
+const celebrationItems = ['🍫', '🧁', '🍰', '🧸', '🌹', '🍩', '🍫', '🧸'];
+
+// --- DRAW ENVELOPE OVERLAY ---
 function drawEnvelope() {
     context.fillStyle = '#4a050c';
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -20,14 +22,14 @@ function drawEnvelope() {
     context.strokeStyle = '#d4af37';
     context.lineWidth = 2;
 
-    // Top Flap Triangle
+    // Top Flap
     context.beginPath();
     context.moveTo(0, 0);
     context.lineTo(canvas.width / 2, canvas.height * 0.42);
     context.lineTo(canvas.width, 0);
     context.stroke();
 
-    // Bottom Flap Lines
+    // Bottom Flap
     context.beginPath();
     context.moveTo(0, canvas.height);
     context.lineTo(canvas.width / 2, canvas.height * 0.42);
@@ -37,7 +39,7 @@ function drawEnvelope() {
     const centerX = canvas.width / 2;
     const centerY = canvas.height * 0.42;
     
-    // Gold Wax Seal Emblem
+    // Gold Wax Seal
     context.fillStyle = '#d4af37';
     context.beginPath();
     context.arc(centerX, centerY, 38, 0, Math.PI * 2);
@@ -49,7 +51,7 @@ function drawEnvelope() {
     context.arc(centerX, centerY, 34, 0, Math.PI * 2);
     context.stroke();
 
-    context.fillStyle = '#3d0308';
+    context.fillStyle = '#380207';
     context.font = 'bold 20px serif';
     context.textAlign = 'center';
     context.fillText('✉️', centerX, centerY + 7);
@@ -138,33 +140,37 @@ function checkScratchPercentage() {
             canvas.style.display = 'none';
         }, 800);
 
-        startRoseShower();
+        startCelebrationShower();
     }
 }
 
-// --- ROSE FLOWER SHOWER EFFECT ---
-function startRoseShower() {
-    let petalsCreated = 0;
+// --- MIXED CELEBRATION SHOWER EFFECT (Chocolates, Pastries, Teddies, Flowers) ---
+function startCelebrationShower() {
+    let itemsCreated = 0;
     const interval = setInterval(() => {
-        createPetal();
-        petalsCreated++;
-        if (petalsCreated >= 65) {
+        createFallingItem();
+        itemsCreated++;
+        if (itemsCreated >= 70) {
             clearInterval(interval);
         }
-    }, 80);
+    }, 85);
 }
 
-function createPetal() {
-    const petal = document.createElement('div');
-    petal.className = 'rose-petal';
-    petal.innerHTML = '🌹';
-    petal.style.left = Math.random() * 100 + 'vw';
-    petal.style.animationDuration = (Math.random() * 2.5 + 3.5) + 's';
-    petal.style.fontSize = (Math.random() * 14 + 18) + 'px';
-    document.body.appendChild(petal);
+function createFallingItem() {
+    const item = document.createElement('div');
+    item.className = 'falling-item';
+    
+    // Pick random item from celebration list
+    const randomSymbol = celebrationItems[Math.floor(Math.random() * celebrationItems.length)];
+    item.innerHTML = randomSymbol;
+    
+    item.style.left = Math.random() * 100 + 'vw';
+    item.style.animationDuration = (Math.random() * 2.5 + 3.5) + 's';
+    
+    document.body.appendChild(item);
 
     setTimeout(() => {
-        petal.remove();
+        item.remove();
     }, 6500);
 }
 
