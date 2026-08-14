@@ -128,7 +128,7 @@ function checkScratchPercentage() {
     const pixels = imageData.data;
     let transparentPixels = 0;
 
-    for (i = 3; i < pixels.length; i += 16) {
+    for (let i = 3; i < pixels.length; i += 16) {
         if (pixels[i] === 0) transparentPixels++;
     }
 
