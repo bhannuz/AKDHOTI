@@ -7,15 +7,10 @@
     <!-- Royal Traditional Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Marcellus&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Great+Vibes&family=Marcellus&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
-
-    <!-- Fixed Royal Top Border -->
-    <div class="royal-border top-border">
-        <div class="border-pattern">✦ 🪔 ✦ 🐘 ✦ 🪔 ✦ 🐘 ✦ 🪔 ✦</div>
-    </div>
 
     <!-- Background Music Control -->
     <button id="musicToggle" class="music-btn" aria-label="Toggle Music">🔊 Music On</button>
@@ -23,48 +18,49 @@
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=indian-traditional-flute-112328.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Main Card Container Centered in Viewport -->
-    <div class="card-wrapper">
-        <!-- Expanded Interactive Envelope Scratch Canvas -->
-        <canvas id="scratchCanvas"></canvas>
+    <!-- Main Outer Screen Wrapper -->
+    <div class="main-wrapper">
+        <!-- Left Golden Mandala Ornament -->
+        <div class="mandala mandala-left"></div>
+        
+        <!-- Right Golden Mandala Ornament -->
+        <div class="mandala mandala-right"></div>
 
-        <!-- Grand Traditional Invitation Card -->
-        <div class="invitation-card">
-            <div class="card-inner">
-                <div class="blessing">|| Shree Ganeshay Namah ||</div>
-                
-                <div class="header-motif">🐘 🪔 🐘</div>
-                
-                <h2 class="event-title">Dhoti Ceremony</h2>
-                
-                <p class="subtitle">With the blessings of elders and Almighty, we cordially invite you to grace the auspicious Dhoti Ceremony of our beloved son</p>
-                
-                <h1 class="child-name">Mudhelli Ayaan Kumar</h1>
-                
-                <div class="divider">✦ ✦ ✦</div>
-                
-                <div class="details-box">
-                    <p class="detail-item"><strong>📅 DATE</strong><br>Saturday, 12th September 2026</p>
+        <!-- Central Royal Vertical Panel -->
+        <div class="card-wrapper">
+            <!-- Scratch Envelope Canvas Overlay -->
+            <canvas id="scratchCanvas"></canvas>
+
+            <!-- Invitation Content -->
+            <div class="invitation-card">
+                <div class="card-inner">
+                    <div class="blessing">|| Shree Ganeshay Namah ||</div>
+                    
+                    <p class="invite-tag">You are Cordially invited<br>to the Dhoti Ceremony of</p>
+                    
+                    <h1 class="child-name">Mudhelli Ayaan Kumar</h1>
+                    
+                    <div class="divider">✦ ✦ ✦</div>
+                    
+                    <div class="date-box">
+                        <p class="save-date">SAVE THE DATE</p>
+                        <p class="date-text">Saturday, 12th September 2026</p>
+                    </div>
+
+                    <div class="parents-box">
+                        <p class="compliments">Soliciting your presence & blessings:</p>
+                        <p class="parents-names">Mudhelli Prashanthi<br>& Mudhelli Bhanu Prasad</p>
+                    </div>
+
+                    <!-- Event Location Button -->
+                    <a href="https://maps.app.goo.gl/axco1g3UQFD7TJo7A?g_st=awb" target="_blank" class="location-btn">
+                        <span class="pulse-pin">📍</span> Get Event Location
+                    </a>
                 </div>
-
-                <div class="parents-box">
-                    <p class="compliments">Soliciting your esteemed presence and blessings:</p>
-                    <p class="parents-names">Mudhelli Prashanthi<br>& Mudhelli Bhanu Prasad</p>
-                </div>
-
-                <!-- Single Event Location Button -->
-                <a href="https://maps.app.goo.gl/axco1g3UQFD7TJo7A?g_st=awb" target="_blank" class="location-btn">
-                    <span class="pulse-pin">📍</span> Get Event Location
-                </a>
             </div>
         </div>
     </div>
 
-    <!-- Fixed Royal Bottom Border -->
-    <div class="royal-border bottom-border">
-        <div class="border-pattern">✦ 🪔 ✦ 🐘 ✦ 🪔 ✦ 🐘 ✦ 🪔 ✦</div>
-    </div>
-
-    <script src="script.js?v=7"></script>
+    <script src="script.js?v=8"></script>
 </body>
 </html>
