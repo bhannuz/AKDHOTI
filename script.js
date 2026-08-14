@@ -1,16 +1,18 @@
 const canvas = document.getElementById('scratchCanvas');
 const context = canvas.getContext('2d');
+const wrapper = document.querySelector('.card-wrapper');
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
 
-canvas.width = 340;
-canvas.height = 560;
+// Match canvas dimensions to wrapper
+canvas.width = wrapper.offsetWidth;
+canvas.height = wrapper.offsetHeight;
 
 let isScratching = false;
 let musicStarted = false;
 let cleared = false;
 
-// --- DRAW GRAND ROYAL ENVELOPE OVERLAY ---
+// --- DRAW ENVELOPE OVERLAY WITH EXPANDED SCRATCH AREA ---
 function drawEnvelope() {
     context.fillStyle = '#6b0f1a';
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -18,21 +20,24 @@ function drawEnvelope() {
     context.strokeStyle = '#d4af37';
     context.lineWidth = 2;
 
+    // Top Flap Triangle
     context.beginPath();
     context.moveTo(0, 0);
-    context.lineTo(canvas.width / 2, canvas.height * 0.45);
+    context.lineTo(canvas.width / 2, canvas.height * 0.42);
     context.lineTo(canvas.width, 0);
     context.stroke();
 
+    // Bottom Flap Lines
     context.beginPath();
     context.moveTo(0, canvas.height);
-    context.lineTo(canvas.width / 2, canvas.height * 0.45);
+    context.lineTo(canvas.width / 2, canvas.height * 0.42);
     context.lineTo(canvas.width, canvas.height);
     context.stroke();
 
     const centerX = canvas.width / 2;
-    const centerY = canvas.height * 0.45;
+    const centerY = canvas.height * 0.42;
     
+    // Gold Seal Emblem
     context.fillStyle = '#d4af37';
     context.beginPath();
     context.arc(centerX, centerY, 42, 0, Math.PI * 2);
@@ -45,17 +50,26 @@ function drawEnvelope() {
     context.stroke();
 
     context.fillStyle = '#6b0f1a';
-    context.font = 'bold 20px serif';
+    context.font = 'bold 22px serif';
     context.textAlign = 'center';
-    context.fillText('✉️', centerX, centerY + 7);
+    context.fillText('✉️', centerX, centerY + 8);
+
+    // Banner Text
+    const bannerY = canvas.height - 110;
+    
+    context.fillStyle = 'rgba(0, 0, 0, 0.4)';
+    context.fillRect(20, bannerY, canvas.width - 40, 60);
+    context.strokeStyle = '#d4af37';
+    context.lineWidth = 1.5;
+    context.strokeRect(20, bannerY, canvas.width - 40, 60);
 
     context.fillStyle = '#ffffff';
-    context.font = 'bold 15px Marcellus, serif';
-    context.fillText('SCRATCH THE ENVELOPE', centerX, canvas.height - 70);
+    context.font = 'bold 16px Marcellus, sans-serif';
+    context.fillText('✨ SCRATCH FULL ENVELOPE ✨', centerX, bannerY + 28);
     
     context.fillStyle = '#d4af37';
-    context.font = '12px Marcellus, serif';
-    context.fillText('to reveal the invitation', centerX, canvas.height - 48);
+    context.font = '12px Marcellus, sans-serif';
+    context.fillText('Rub across the screen to reveal details', centerX, bannerY + 48);
 }
 
 drawEnvelope();
@@ -99,13 +113,13 @@ function scratch(e) {
     const { x, y } = getCoordinates(e);
     context.globalCompositeOperation = 'destination-out';
     context.beginPath();
-    context.arc(x, y, 28, 0, Math.PI * 2);
+    context.arc(x, y, 26, 0, Math.PI * 2); // Standardized brush radius
     context.fill();
 
     checkScratchPercentage();
 }
 
-// Auto-reveal card after ~45% scratch & trigger Rose Flower Shower
+// Higher threshold (60%) so users scratch much more of the area before auto-clear
 function checkScratchPercentage() {
     if (cleared) return;
 
@@ -118,14 +132,13 @@ function checkScratchPercentage() {
     }
 
     const totalSampled = pixels.length / 16;
-    if (transparentPixels / totalSampled > 0.45) {
+    if (transparentPixels / totalSampled > 0.60) {
         cleared = true;
         canvas.style.opacity = '0';
         setTimeout(() => {
             canvas.style.display = 'none';
         }, 800);
 
-        // 🌹 Trigger Rose Petal Shower! 🌹
         startRoseShower();
     }
 }
@@ -136,10 +149,10 @@ function startRoseShower() {
     const interval = setInterval(() => {
         createPetal();
         petalsCreated++;
-        if (petalsCreated >= 60) { // Creates 60 falling rose petals
+        if (petalsCreated >= 65) {
             clearInterval(interval);
         }
-    }, 90);
+    }, 80);
 }
 
 function createPetal() {
@@ -161,7 +174,7 @@ canvas.addEventListener('mousedown', (e) => { isScratching = true; scratch(e); }
 canvas.addEventListener('mousemove', scratch);
 canvas.addEventListener('mouseup', () => isScratching = false);
 
-// Touch Listeners (Mobile)
+// Touch Listeners
 canvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); e.preventDefault(); });
 canvas.addEventListener('touchmove', (e) => { scratch(e); e.preventDefault(); });
 canvas.addEventListener('touchend', () => isScratching = false);
