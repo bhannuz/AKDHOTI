@@ -128,7 +128,7 @@ function checkScratchPercentage() {
     const pixels = imageData.data;
     let transparentPixels = 0;
 
-    for (let i = 3; i < pixels.length; i += 16) {
+    for (i = 3; i < pixels.length; i += 16) {
         if (pixels[i] === 0) transparentPixels++;
     }
 
@@ -144,7 +144,7 @@ function checkScratchPercentage() {
     }
 }
 
-// --- MIXED CELEBRATION SHOWER EFFECT (Chocolates, Pastries, Teddies, Flowers) ---
+// --- MIXED CELEBRATION SHOWER EFFECT ---
 function startCelebrationShower() {
     let itemsCreated = 0;
     const interval = setInterval(() => {
@@ -160,7 +160,6 @@ function createFallingItem() {
     const item = document.createElement('div');
     item.className = 'falling-item';
     
-    // Pick random item from celebration list
     const randomSymbol = celebrationItems[Math.floor(Math.random() * celebrationItems.length)];
     item.innerHTML = randomSymbol;
     

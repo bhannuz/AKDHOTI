@@ -73,9 +73,9 @@ body {
 /* Central Royal Vertical Panel */
 .card-wrapper {
     position: relative;
-    width: 310px;
-    height: 570px;
-    max-height: 88vh;
+    width: 320px;
+    height: 610px;
+    max-height: 92vh;
     background: #360207;
     z-index: 10;
     box-shadow: 0 0 35px rgba(0, 0, 0, 0.9);
@@ -101,14 +101,14 @@ body {
 .invitation-card {
     width: 100%;
     height: 100%;
-    padding: 18px 14px;
+    padding: 14px 12px;
     background: radial-gradient(circle, #4a050c 0%, #250104 100%);
 }
 
 .card-inner {
     border: 1px solid rgba(212, 175, 55, 0.4);
     height: 100%;
-    padding: 16px 12px;
+    padding: 12px 10px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -116,73 +116,91 @@ body {
     align-items: center;
 }
 
+/* Blessing Box */
+.blessing-box {
+    margin-bottom: 2px;
+}
+
 .blessing {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     color: #f7e396;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
+    line-height: 1.35;
 }
 
 .invite-tag {
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     color: #e5c158;
-    line-height: 1.4;
+    line-height: 1.35;
     letter-spacing: 0.5px;
-    margin-top: 4px;
+    margin-top: 2px;
 }
 
 /* Gold Script for Name */
 .child-name {
     font-family: 'Great Vibes', cursive;
-    font-size: 2.2rem;
+    font-size: 2.1rem;
     font-weight: normal;
     background: linear-gradient(135deg, #fff3c4 0%, #d4af37 50%, #aa7c11 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin: 6px 0;
+    margin: 4px 0;
     line-height: 1.2;
 }
 
 .divider {
     color: #d4af37;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     opacity: 0.8;
 }
 
 .date-box {
-    margin: 4px 0;
+    margin: 3px 0;
 }
 
 .save-date {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     color: #d4af37;
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
 .date-text {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: #fff8dc;
     font-weight: bold;
 }
 
-.parents-box {
-    border-top: 1px dashed rgba(212, 175, 55, 0.3);
-    padding-top: 8px;
+/* Family Details Container */
+.family-details {
     width: 100%;
+    border-top: 1px dashed rgba(212, 175, 55, 0.35);
+    padding-top: 6px;
 }
 
-.compliments {
-    font-size: 0.68rem;
+.section-title {
+    font-size: 0.62rem;
     color: #d4af37;
     font-style: italic;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
+}
+
+.grandparents-box {
+    margin-bottom: 5px;
+}
+
+.grandparents-names {
+    color: #fff3c4;
+    font-size: 0.7rem;
+    line-height: 1.3;
 }
 
 .parents-names {
     color: #fff3c4;
-    font-size: 0.8rem;
-    line-height: 1.35;
+    font-size: 0.76rem;
+    font-weight: bold;
+    line-height: 1.3;
 }
 
 /* Location Button */
@@ -195,12 +213,12 @@ body {
     color: #230104;
     text-decoration: none;
     border: 1px solid #fff3c4;
-    padding: 8px 18px;
+    padding: 7px 16px;
     border-radius: 25px;
     font-family: 'Marcellus', serif;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: bold;
-    margin-top: 4px;
+    margin-top: 2px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     transition: all 0.3s ease;
     animation: subtlePulse 2s infinite;
@@ -234,7 +252,7 @@ body {
     z-index: 99;
     pointer-events: none;
     user-select: none;
-    font-size: 24px; /* Uniform equal sizing for all items */
+    font-size: 24px;
     animation: itemFall linear forwards;
 }
 
