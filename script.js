@@ -10,6 +10,7 @@ canvas.height = wrapper.offsetHeight;
 let isScratching = false;
 let musicStarted = false;
 let cleared = false;
+let musicTimer = null; // Timer reference for 1-minute auto-stop
 
 // Array of celebratory items (Chocolates, Pastries, Teddy Bears, Flowers)
 const celebrationItems = ['🍫', '🧁', '🍰', '🧸', '🌹', '🍩', '🍫', '🧸'];
@@ -76,23 +77,36 @@ function drawEnvelope() {
 
 drawEnvelope();
 
-// --- AUDIO CONTROLS ---
+// --- AUDIO CONTROLS (WITH 1-MINUTE LIMIT) ---
+function playMusicWithTimer() {
+    bgMusic.play().then(() => {
+        musicStarted = true;
+        musicToggle.textContent = '🔊 Music On';
+
+        // Clear any existing timer before starting a new one
+        if (musicTimer) clearTimeout(musicTimer);
+
+        // Auto-pause sound after 60,000 ms (1 minute)
+        musicTimer = setTimeout(() => {
+            bgMusic.pause();
+            musicToggle.textContent = '🔇 Muted';
+        }, 60000);
+    }).catch(() => {});
+}
+
 function startAudio() {
     if (!musicStarted) {
-        bgMusic.play().then(() => {
-            musicStarted = true;
-            musicToggle.textContent = '🔊 Music On';
-        }).catch(() => {});
+        playMusicWithTimer();
     }
 }
 
 musicToggle.addEventListener('click', (e) => {
     e.stopPropagation();
     if (bgMusic.paused) {
-        bgMusic.play();
-        musicToggle.textContent = '🔊 Music On';
+        playMusicWithTimer();
     } else {
         bgMusic.pause();
+        if (musicTimer) clearTimeout(musicTimer);
         musicToggle.textContent = '🔇 Muted';
     }
 });
