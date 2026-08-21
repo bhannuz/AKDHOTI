@@ -1,198 +1,90 @@
-const canvas = document.getElementById('scratchCanvas');
-const context = canvas.getContext('2d');
-const wrapper = document.querySelector('.card-wrapper');
-const bgMusic = document.getElementById('bgMusic');
-const musicToggle = document.getElementById('musicToggle');
+document.addEventListener('DOMContentLoaded', () => {
+  const scrollCard = document.getElementById('scrollCard');
+  const openBtn = document.getElementById('openBtn');
+  const bgMusic = document.getElementById('bgMusic');
+  const canvas = document.getElementById('scratchCanvas');
+  const ctx = canvas.getContext('2d');
+  
+  let isOpen = false;
+  let isScratching = false;
 
-canvas.width = wrapper.offsetWidth;
-canvas.height = wrapper.offsetHeight;
+  // Initialize Scratch Canvas Surface
+  function initScratchCanvas() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
 
-let isScratching = false;
-let musicStarted = false;
-let cleared = false;
-let musicTimer = null; // Timer reference for 1-minute auto-stop
+    // Gold coating
+    ctx.fillStyle = '#d4af37';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-// Array of celebratory items (Chocolates, Pastries, Teddy Bears, Flowers)
-const celebrationItems = ['🍫', '🧁', '🍰', '🧸', '🌹', '🍩', '🍫', '🧸'];
+    // Scratch text cue
+    ctx.fillStyle = '#5c4033';
+    ctx.font = 'bold 16px Georgia';
+    ctx.textAlign = 'center';
+    ctx.fillText('Scratch Here 🪙', canvas.width / 2, canvas.height / 2);
+  }
 
-// --- DRAW ENVELOPE OVERLAY ---
-function drawEnvelope() {
-    context.fillStyle = '#4a050c';
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    context.strokeStyle = '#d4af37';
-    context.lineWidth = 2;
-
-    // Top Flap
-    context.beginPath();
-    context.moveTo(0, 0);
-    context.lineTo(canvas.width / 2, canvas.height * 0.42);
-    context.lineTo(canvas.width, 0);
-    context.stroke();
-
-    // Bottom Flap
-    context.beginPath();
-    context.moveTo(0, canvas.height);
-    context.lineTo(canvas.width / 2, canvas.height * 0.42);
-    context.lineTo(canvas.width, canvas.height);
-    context.stroke();
-
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height * 0.42;
-    
-    // Gold Wax Seal
-    context.fillStyle = '#d4af37';
-    context.beginPath();
-    context.arc(centerX, centerY, 38, 0, Math.PI * 2);
-    context.fill();
-
-    context.strokeStyle = '#fff8dc';
-    context.lineWidth = 2;
-    context.beginPath();
-    context.arc(centerX, centerY, 34, 0, Math.PI * 2);
-    context.stroke();
-
-    context.fillStyle = '#380207';
-    context.font = 'bold 20px serif';
-    context.textAlign = 'center';
-    context.fillText('✉️', centerX, centerY + 7);
-
-    // Prompt Banner
-    const bannerY = canvas.height - 110;
-    
-    context.fillStyle = 'rgba(0, 0, 0, 0.45)';
-    context.fillRect(15, bannerY, canvas.width - 30, 60);
-    context.strokeStyle = '#d4af37';
-    context.lineWidth = 1.5;
-    context.strokeRect(15, bannerY, canvas.width - 30, 60);
-
-    context.fillStyle = '#ffffff';
-    context.font = 'bold 15px Marcellus, sans-serif';
-    context.fillText('✨ SCRATCH FULL ENVELOPE ✨', centerX, bannerY + 28);
-    
-    context.fillStyle = '#d4af37';
-    context.font = '11px Marcellus, sans-serif';
-    context.fillText('Rub across screen to reveal invitation', centerX, bannerY + 48);
-}
-
-drawEnvelope();
-
-// --- AUDIO CONTROLS (WITH 1-MINUTE LIMIT) ---
-function playMusicWithTimer() {
-    bgMusic.play().then(() => {
-        musicStarted = true;
-        musicToggle.textContent = '🔊 Music On';
-
-        // Clear any existing timer before starting a new one
-        if (musicTimer) clearTimeout(musicTimer);
-
-        // Auto-pause sound after 60,000 ms (1 minute)
-        musicTimer = setTimeout(() => {
-            bgMusic.pause();
-            musicToggle.textContent = '🔇 Muted';
-        }, 60000);
-    }).catch(() => {});
-}
-
-function startAudio() {
-    if (!musicStarted) {
-        playMusicWithTimer();
-    }
-}
-
-musicToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (bgMusic.paused) {
-        playMusicWithTimer();
-    } else {
-        bgMusic.pause();
-        if (musicTimer) clearTimeout(musicTimer);
-        musicToggle.textContent = '🔇 Muted';
-    }
-});
-
-// --- SCRATCH MECHANICS ---
-function getCoordinates(e) {
+  // Scratch Action Logic
+  function scratch(e) {
+    if (!isScratching) return;
     const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    return {
-        x: clientX - rect.left,
-        y: clientY - rect.top
-    };
-}
+    const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+    const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
 
-function scratch(e) {
-    if (!isScratching || cleared) return;
-    startAudio();
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, 22, 0, Math.PI * 2);
+    ctx.fill();
+  }
 
-    const { x, y } = getCoordinates(e);
-    context.globalCompositeOperation = 'destination-out';
-    context.beginPath();
-    context.arc(x, y, 26, 0, Math.PI * 2);
-    context.fill();
+  // Event Listeners for Scratching
+  ['mousedown', 'touchstart'].forEach(evt => 
+    canvas.addEventListener(evt, (e) => { isScratching = true; scratch(e); })
+  );
+  ['mousemove', 'touchmove'].forEach(evt => 
+    canvas.addEventListener(evt, scratch)
+  );
+  ['mouseup', 'mouseleave', 'touchend'].forEach(evt => 
+    canvas.addEventListener(evt, () => isScratching = false)
+  );
 
-    checkScratchPercentage();
-}
+  // Sound & Card Toggle
+  openBtn.addEventListener('click', () => {
+    isOpen = !isOpen;
 
-function checkScratchPercentage() {
-    if (cleared) return;
-
-    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    const pixels = imageData.data;
-    let transparentPixels = 0;
-
-    for (let i = 3; i < pixels.length; i += 16) {
-        if (pixels[i] === 0) transparentPixels++;
+    if (isOpen) {
+      scrollCard.classList.add('open');
+      openBtn.textContent = 'Close Scroll';
+      
+      // Sound Fix: Executed directly on user click gesture
+      if (bgMusic) {
+        bgMusic.play().catch(err => console.log("Audio playback error:", err));
+      }
+    } else {
+      scrollCard.classList.remove('open');
+      openBtn.textContent = 'Open Scroll';
     }
+  });
 
-    const totalSampled = pixels.length / 16;
-    if (transparentPixels / totalSampled > 0.55) {
-        cleared = true;
-        canvas.style.opacity = '0';
-        setTimeout(() => {
-            canvas.style.display = 'none';
-        }, 800);
-
-        startCelebrationShower();
-    }
-}
-
-// --- MIXED CELEBRATION SHOWER EFFECT ---
-function startCelebrationShower() {
-    let itemsCreated = 0;
-    const interval = setInterval(() => {
-        createFallingItem();
-        itemsCreated++;
-        if (itemsCreated >= 70) {
-            clearInterval(interval);
-        }
-    }, 85);
-}
-
-function createFallingItem() {
-    const item = document.createElement('div');
-    item.className = 'falling-item';
+  // Falling Flowers, Chocolates & Donuts System
+  function createFallingItems() {
+    const container = document.getElementById('fallingContainer');
+    const items = ['🌸', '🌺', '🌹', '🍫', '🍩'];
     
-    const randomSymbol = celebrationItems[Math.floor(Math.random() * celebrationItems.length)];
-    item.innerHTML = randomSymbol;
-    
-    item.style.left = Math.random() * 100 + 'vw';
-    item.style.animationDuration = (Math.random() * 2.5 + 3.5) + 's';
-    
-    document.body.appendChild(item);
+    setInterval(() => {
+      const item = document.createElement('div');
+      item.classList.add('falling-item');
+      item.innerText = items[Math.floor(Math.random() * items.length)];
+      item.style.left = Math.random() * 100 + 'vw';
+      item.style.animationDuration = Math.random() * 3 + 3 + 's'; // 3 to 6 sec speed
+      item.style.fontSize = Math.random() * 15 + 20 + 'px'; // 20px to 35px
+      
+      container.appendChild(item);
 
-    setTimeout(() => {
-        item.remove();
-    }, 6500);
-}
+      setTimeout(() => item.remove(), 6000);
+    }, 300);
+  }
 
-// Mouse Listeners
-canvas.addEventListener('mousedown', (e) => { isScratching = true; scratch(e); });
-canvas.addEventListener('mousemove', scratch);
-canvas.addEventListener('mouseup', () => isScratching = false);
-
-// Touch Listeners
-canvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); e.preventDefault(); });
-canvas.addEventListener('touchmove', (e) => { scratch(e); e.preventDefault(); });
-canvas.addEventListener('touchend', () => isScratching = false);
+  initScratchCanvas();
+  createFallingItems();
+});
