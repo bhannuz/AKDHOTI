@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isOpen = false;
   let isScratching = false;
   let fallingInterval = null;
+  let musicTimeout = null;
 
   // Initialize Scratch Coating
   function initScratchCanvas() {
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillText('Scratch Here 🪙', canvas.width / 2, canvas.height / 2);
   }
 
-  // Scratch Action Logic
+  // Scratch Action Logic (Increased radius to 45px for a larger scratch area)
   function scratch(e) {
     if (!isScratching) return;
     const rect = canvas.getBoundingClientRect();
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 22, 0, Math.PI * 2);
+    ctx.arc(x, y, 45, 0, Math.PI * 2); // Radius increased from 22 to 45
     ctx.fill();
   }
 
@@ -50,9 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.addEventListener(evt, () => isScratching = false)
   );
 
-  // Start Falling Animation
+  // Start Falling Animation (Flowers, Chocolates, Donuts)
   function startFallingItems() {
-    if (fallingInterval) return;
+    stopFallingItems(); // Ensures no duplicate intervals running
     const container = document.getElementById('fallingContainer');
     const items = ['🌸', '🌺', '🌹', '🍫', '🍩'];
     
@@ -70,15 +71,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   }
 
-  // Stop & Clear Falling Animation
+  // Stop & Clear Falling Items
   function stopFallingItems() {
-    clearInterval(fallingInterval);
-    fallingInterval = null;
+    if (fallingInterval) {
+      clearInterval(fallingInterval);
+      fallingInterval = null;
+    }
     const container = document.getElementById('fallingContainer');
     if (container) container.innerHTML = '';
   }
 
-  // Card Open/Close Event
+  // Card Open/Close Event Handler
   openBtn.addEventListener('click', () => {
     isOpen = !isOpen;
 
@@ -86,29 +89,39 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollCard.classList.add('open');
       openBtn.textContent = 'Close Scroll';
       
-      // Play Music on Open
+      // Play Audio & Set 60-Second Cutoff
       if (bgMusic) {
+        bgMusic.currentTime = 0;
         bgMusic.play().catch(err => console.log("Audio play error:", err));
+
+        clearTimeout(musicTimeout);
+        musicTimeout = setTimeout(() => {
+          bgMusic.pause();
+        }, 60000); // Stop exactly after 60 seconds
       }
 
-      // Trigger Falling Items on Open
+      // Start falling elements only when opened
       startFallingItems();
 
     } else {
       scrollCard.classList.remove('open');
       openBtn.textContent = 'Open Scroll';
 
-      // Pause Music on Close
+      // Pause audio and clear timer
       if (bgMusic) {
         bgMusic.pause();
+        clearTimeout(musicTimeout);
       }
 
-      // Stop Falling Items on Close
+      // Stop and clear falling elements when closed
       stopFallingItems();
     }
   });
 
-  // Ensure canvas fits image after loading
+  // Guarantees clean state on page load
+  stopFallingItems();
+
+  // Resize canvas canvas once image loads
   if (cardImage.complete) {
     initScratchCanvas();
   } else {
