@@ -1,272 +1,162 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background: radial-gradient(circle, #380207 0%, #120002 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    font-family: 'Marcellus', serif;
-    touch-action: none;
-    overflow: hidden;
-    position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #1a0003;
+  font-family: 'Georgia', serif;
+  overflow-x: hidden;
 }
 
-/* Screen Wrapper */
-.main-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 500px;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Falling Animation System */
+#fallingContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
 }
 
-/* Rich Royal Golden Mandalas Peeking from Sides */
-.mandala {
-    position: absolute;
-    top: 50%;
-    width: 200px;
-    height: 400px;
-    transform: translateY(-50%);
-    background-size: contain;
-    background-repeat: no-repeat;
-    pointer-events: none;
-    z-index: 1;
-    filter: drop-shadow(0px 0px 8px rgba(212, 175, 55, 0.4));
-}
-
-.mandala-left {
-    left: -20px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 400'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffe89e'/%3E%3Cstop offset='50%25' stop-color='%23d4af37'/%3E%3Cstop offset='100%25' stop-color='%23997517'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23gold)' stroke-width='1.5'%3E%3Ccircle cx='0' cy='200' r='185' stroke-width='2'/%3E%3Ccircle cx='0' cy='200' r='170' stroke-dasharray='3,3'/%3E%3Ccircle cx='0' cy='200' r='150' fill='rgba(212,175,55,0.05)'/%3E%3Ccircle cx='0' cy='200' r='125' stroke-width='2'/%3E%3Ccircle cx='0' cy='200' r='95' stroke-dasharray='4,4'/%3E%3Ccircle cx='0' cy='200' r='65' fill='rgba(212,175,55,0.1)'/%3E%3Cpath d='M0 15 Q180 200 0 385' stroke-width='2'/%3E%3Cpath d='M0 35 Q150 200 0 365'/%3E%3Cpath d='M0 55 Q120 200 0 345'/%3E%3Cpath d='M0 75 Q90 200 0 325'/%3E%3Cpath d='M0 95 Q60 200 0 305'/%3E%3C/g%3E%3C/svg%3E");
-    background-position: left center;
-}
-
-.mandala-right {
-    right: -20px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 400'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ffe89e'/%3E%3Cstop offset='50%25' stop-color='%23d4af37'/%3E%3Cstop offset='100%25' stop-color='%23997517'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23gold)' stroke-width='1.5'%3E%3Ccircle cx='200' cy='200' r='185' stroke-width='2'/%3E%3Ccircle cx='200' cy='200' r='170' stroke-dasharray='3,3'/%3E%3Ccircle cx='200' cy='200' r='150' fill='rgba(212,175,55,0.05)'/%3E%3Ccircle cx='200' cy='200' r='125' stroke-width='2'/%3E%3Ccircle cx='200' cy='200' r='95' stroke-dasharray='4,4'/%3E%3Ccircle cx='200' cy='200' r='65' fill='rgba(212,175,55,0.1)'/%3E%3Cpath d='M200 15 Q20 200 200 385' stroke-width='2'/%3E%3Cpath d='M200 35 Q50 200 200 365'/%3E%3Cpath d='M200 55 Q80 200 200 345'/%3E%3Cpath d='M200 75 Q110 200 200 325'/%3E%3Cpath d='M200 95 Q140 200 200 305'/%3E%3C/g%3E%3C/svg%3E");
-    background-position: right center;
-}
-
-/* Music Control Button */
-.music-btn {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    z-index: 101;
-    background: rgba(212, 175, 55, 0.9);
-    color: #380207;
-    border: 1px solid #fff8dc;
-    padding: 7px 13px;
-    border-radius: 20px;
-    font-size: 0.78rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-
-/* Central Royal Vertical Panel */
-.card-wrapper {
-    position: relative;
-    width: 320px;
-    height: 610px;
-    max-height: 92vh;
-    background: #360207;
-    z-index: 10;
-    box-shadow: 0 0 35px rgba(0, 0, 0, 0.9);
-    border-left: 2px solid #d4af37;
-    border-right: 2px solid #d4af37;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-/* Scratch Canvas */
-#scratchCanvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 20;
-    cursor: pointer;
-    transition: opacity 0.8s ease;
-}
-
-/* Invitation Card Inner */
-.invitation-card {
-    width: 100%;
-    height: 100%;
-    padding: 14px 12px;
-    background: radial-gradient(circle, #4a050c 0%, #250104 100%);
-}
-
-.card-inner {
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    height: 100%;
-    padding: 12px 10px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Blessing Box */
-.blessing-box {
-    margin-bottom: 2px;
-}
-
-.blessing {
-    font-size: 0.68rem;
-    color: #f7e396;
-    letter-spacing: 0.8px;
-    line-height: 1.35;
-}
-
-.invite-tag {
-    font-size: 0.76rem;
-    color: #e5c158;
-    line-height: 1.35;
-    letter-spacing: 0.5px;
-    margin-top: 2px;
-}
-
-/* Gold Script for Name */
-.child-name {
-    font-family: 'Great Vibes', cursive;
-    font-size: 2.1rem;
-    font-weight: normal;
-    background: linear-gradient(135deg, #fff3c4 0%, #d4af37 50%, #aa7c11 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 4px 0;
-    line-height: 1.2;
-}
-
-.divider {
-    color: #d4af37;
-    font-size: 0.6rem;
-    opacity: 0.8;
-}
-
-.date-box {
-    margin: 3px 0;
-}
-
-.save-date {
-    font-size: 0.65rem;
-    color: #d4af37;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 1px;
-}
-
-.date-text {
-    font-size: 0.8rem;
-    color: #fff8dc;
-    font-weight: bold;
-    line-height: 1.35;
-}
-
-/* Family Details Container */
-.family-details {
-    width: 100%;
-    border-top: 1px dashed rgba(212, 175, 55, 0.35);
-    padding-top: 6px;
-}
-
-.section-title {
-    font-size: 0.62rem;
-    color: #d4af37;
-    font-style: italic;
-    margin-bottom: 2px;
-}
-
-.parents-box {
-    margin-bottom: 5px;
-}
-
-.parents-names {
-    color: #fff3c4;
-    font-size: 0.76rem;
-    font-weight: bold;
-    line-height: 1.3;
-}
-
-.grandparents-names {
-    color: #fff3c4;
-    font-size: 0.7rem;
-    line-height: 1.3;
-}
-
-/* Location Button */
-.location-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: linear-gradient(135deg, #d4af37 0%, #997517 100%);
-    color: #230104;
-    text-decoration: none;
-    border: 1px solid #fff3c4;
-    padding: 7px 16px;
-    border-radius: 25px;
-    font-family: 'Marcellus', serif;
-    font-size: 0.78rem;
-    font-weight: bold;
-    margin-top: 2px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    transition: all 0.3s ease;
-    animation: subtlePulse 2s infinite;
-}
-
-.location-btn:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #ffe89e 0%, #d4af37 100%);
-}
-
-.pulse-pin {
-    display: inline-block;
-    animation: pinBounce 1.5s infinite alternate;
-}
-
-@keyframes pinBounce {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-3px); }
-}
-
-@keyframes subtlePulse {
-    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); }
-    70% { box-shadow: 0 0 0 8px rgba(212, 175, 55, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-}
-
-/* 🍫🧁🧸🌹 Falling Celebration Items Animation 🌹🧸🧁🍫 */
 .falling-item {
-    position: fixed;
-    top: -50px;
-    z-index: 99;
-    pointer-events: none;
-    user-select: none;
-    font-size: 24px;
-    animation: itemFall linear forwards;
+  position: absolute;
+  top: -50px;
+  animation: fall linear infinite;
+  user-select: none;
 }
 
-@keyframes itemFall {
-    0% {
-        transform: translateY(0) rotate(0deg) translateX(0);
-        opacity: 1;
-    }
-    50% {
-        transform: translateY(50vh) rotate(180deg) translateX(25px);
-    }
-    100% {
-        transform: translateY(105vh) rotate(360deg) translateX(-25px);
-        opacity: 0;
-    }
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) rotate(360deg);
+    opacity: 0.2;
+  }
+}
+
+/* Scroll Card Layout */
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  z-index: 10;
+}
+
+.scroll-card {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.scroll-roller {
+  width: 100%;
+  height: 28px;
+  background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
+  border-radius: 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  position: relative;
+}
+
+.scroll-roller::before,
+.scroll-roller::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  width: 14px;
+  height: 34px;
+  background: #8b0000;
+  border-radius: 4px;
+  border: 1px solid #ffd700;
+}
+
+.scroll-roller::before { left: -8px; }
+.scroll-roller::after { right: -8px; }
+
+.scroll-body {
+  width: 90%;
+  max-height: 0;
+  overflow: hidden;
+  background: #fdf5e6;
+  border-left: 3px solid #b8860b;
+  border-right: 3px solid #b8860b;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.15);
+  transition: max-height 1.2s ease-in-out, padding 0.8s ease-in-out;
+  padding: 0 10px;
+}
+
+.scroll-card.open .scroll-body {
+  max-height: 520px;
+  padding: 20px 10px;
+}
+
+.scroll-content {
+  opacity: 0;
+  transition: opacity 0.8s ease 0.4s;
+  text-align: center;
+}
+
+.scroll-card.open .scroll-content {
+  opacity: 1;
+}
+
+.scratch-instruction {
+  font-size: 0.85rem;
+  color: #8b0000;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Scratch Container & Overlay */
+.scratch-container {
+  position: relative;
+  width: 260px;
+  height: 370px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+#cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#scratchCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.open-btn {
+  margin-top: 20px;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #b8860b, #ffd700);
+  border: none;
+  border-radius: 25px;
+  color: #4a0000;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
 }
