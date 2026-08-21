@@ -54,7 +54,7 @@ body {
 }
 
 .scroll-card {
-  width: 320px;
+  width: 340px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,8 +99,8 @@ body {
 }
 
 .scroll-card.open .scroll-body {
-  max-height: 520px;
-  padding: 20px 10px;
+  max-height: 580px;
+  padding: 15px 10px;
 }
 
 .scroll-content {
@@ -120,22 +120,27 @@ body {
   margin-bottom: 10px;
 }
 
-/* Scratch Container & Overlay */
+/* Scratch Container & Stacked Canvas */
 .scratch-container {
   position: relative;
-  width: 260px;
-  height: 370px;
+  width: 270px;
+  height: 420px;
   margin: 0 auto;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  background-color: #fdf5e6;
 }
 
 #cardImage {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  z-index: 1;
 }
 
 #scratchCanvas {
@@ -144,6 +149,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 2;
   cursor: pointer;
   touch-action: none;
 }
