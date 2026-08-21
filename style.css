@@ -99,7 +99,7 @@ body {
 }
 
 .scroll-card.open .scroll-body {
-  max-height: 580px;
+  max-height: 640px;
   padding: 15px 10px;
 }
 
@@ -152,6 +152,27 @@ body {
   z-index: 2;
   cursor: pointer;
   touch-action: none;
+}
+
+/* Location Button Styling */
+.location-btn {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 20px;
+  background: #8b0000;
+  color: #ffd700;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  border: 1px solid #ffd700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.location-btn:hover {
+  background-color: #a00000;
+  transform: translateY(-2px);
 }
 
 .open-btn {
