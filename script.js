@@ -3,21 +3,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const openBtn = document.getElementById('openBtn');
   const bgMusic = document.getElementById('bgMusic');
   const canvas = document.getElementById('scratchCanvas');
+  const cardImage = document.getElementById('cardImage');
   const ctx = canvas.getContext('2d');
   
   let isOpen = false;
   let isScratching = false;
+  let fallingInterval = null;
 
-  // Initialize Scratch Canvas Surface
+  // Initialize Scratch Coating
   function initScratchCanvas() {
     canvas.width = canvas.parentElement.clientWidth;
     canvas.height = canvas.parentElement.clientHeight;
 
-    // Gold coating
+    // Gold layer
     ctx.fillStyle = '#d4af37';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Scratch text cue
+    // Overlay text cue
     ctx.fillStyle = '#5c4033';
     ctx.font = 'bold 16px Georgia';
     ctx.textAlign = 'center';
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fill();
   }
 
-  // Event Listeners for Scratching
+  // Scratch Event Listeners
   ['mousedown', 'touchstart'].forEach(evt => 
     canvas.addEventListener(evt, (e) => { isScratching = true; scratch(e); })
   );
@@ -48,36 +50,19 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.addEventListener(evt, () => isScratching = false)
   );
 
-  // Sound & Card Toggle
-  openBtn.addEventListener('click', () => {
-    isOpen = !isOpen;
-
-    if (isOpen) {
-      scrollCard.classList.add('open');
-      openBtn.textContent = 'Close Scroll';
-      
-      // Sound Fix: Executed directly on user click gesture
-      if (bgMusic) {
-        bgMusic.play().catch(err => console.log("Audio playback error:", err));
-      }
-    } else {
-      scrollCard.classList.remove('open');
-      openBtn.textContent = 'Open Scroll';
-    }
-  });
-
-  // Falling Flowers, Chocolates & Donuts System
-  function createFallingItems() {
+  // Start Falling Animation
+  function startFallingItems() {
+    if (fallingInterval) return;
     const container = document.getElementById('fallingContainer');
     const items = ['🌸', '🌺', '🌹', '🍫', '🍩'];
     
-    setInterval(() => {
+    fallingInterval = setInterval(() => {
       const item = document.createElement('div');
       item.classList.add('falling-item');
       item.innerText = items[Math.floor(Math.random() * items.length)];
       item.style.left = Math.random() * 100 + 'vw';
-      item.style.animationDuration = Math.random() * 3 + 3 + 's'; // 3 to 6 sec speed
-      item.style.fontSize = Math.random() * 15 + 20 + 'px'; // 20px to 35px
+      item.style.animationDuration = Math.random() * 3 + 3 + 's';
+      item.style.fontSize = Math.random() * 15 + 20 + 'px';
       
       container.appendChild(item);
 
@@ -85,6 +70,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   }
 
-  initScratchCanvas();
-  createFallingItems();
+  // Stop & Clear Falling Animation
+  function stopFallingItems() {
+    clearInterval(fallingInterval);
+    fallingInterval = null;
+    const container = document.getElementById('fallingContainer');
+    if (container) container.innerHTML = '';
+  }
+
+  // Card Open/Close Event
+  openBtn.addEventListener('click', () => {
+    isOpen = !isOpen;
+
+    if (isOpen) {
+      scrollCard.classList.add('open');
+      openBtn.textContent = 'Close Scroll';
+      
+      // Play Music on Open
+      if (bgMusic) {
+        bgMusic.play().catch(err => console.log("Audio play error:", err));
+      }
+
+      // Trigger Falling Items on Open
+      startFallingItems();
+
+    } else {
+      scrollCard.classList.remove('open');
+      openBtn.textContent = 'Open Scroll';
+
+      // Pause Music on Close
+      if (bgMusic) {
+        bgMusic.pause();
+      }
+
+      // Stop Falling Items on Close
+      stopFallingItems();
+    }
+  });
+
+  // Ensure canvas fits image after loading
+  if (cardImage.complete) {
+    initScratchCanvas();
+  } else {
+    cardImage.addEventListener('load', initScratchCanvas);
+  }
 });
