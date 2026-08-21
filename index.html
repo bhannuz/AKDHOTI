@@ -1,85 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dhoti Ceremony - Mudhelli Ayaan Kumar</title>
-    <!-- Royal Traditional Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Great+Vibes&family=Marcellus&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=11">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Roll Invitation</title>
+  <style>
+    :root {
+      --parchment-bg: #f4e4bc;
+      --wood-dark: #3e2723;
+      --accent-gold: #d4af37;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #1a1a1a;
+      font-family: 'Georgia', serif;
+      overflow-x: hidden;
+    }
+
+    /* --- ROLL CARD CONTAINER --- */
+    .scroll-container {
+      position: relative;
+      width: 320px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Wooden Scroll Handles */
+    .scroll-handle {
+      height: 24px;
+      background: linear-gradient(90deg, #2b1704, #5c3a21 50%, #2b1704);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      position: relative;
+      z-index: 3;
+    }
+
+    .scroll-handle::before, .scroll-handle::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      width: 14px;
+      height: 32px;
+      background: var(--accent-gold);
+      border-radius: 4px;
+    }
+    .scroll-handle::before { left: -6px; }
+    .scroll-handle::after { right: -6px; }
+
+    /* Unrolling Body */
+    .scroll-body {
+      background: var(--parchment-bg);
+      background-image: radial-gradient(#e2c991 1px, transparent 1px);
+      background-size: 16px 16px;
+      height: 0px;
+      opacity: 0;
+      overflow: hidden;
+      transition: height 1.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15);
+      position: relative;
+      margin: 0 10px;
+    }
+
+    /* Unrolled Active State */
+    .scroll-container.open .scroll-body {
+      height: 420px;
+      opacity: 1;
+    }
+
+    .tap-hint {
+      text-align: center;
+      color: var(--accent-gold);
+      margin-top: 15px;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* --- SCRATCH CARD AREA --- */
+    .scratch-wrapper {
+      position: relative;
+      width: 260px;
+      height: 320px;
+      margin: 50px auto 0 auto;
+      border: 2px dashed var(--accent-gold);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* Secret content under canvas */
+    .invitation-details {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #fffdf5;
+    }
+
+    .invitation-details h2 {
+      margin: 0 0 10px 0;
+      color: #8b0000;
+      font-size: 1.4rem;
+    }
+
+    .invitation-details p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+    }
+
+    /* Overlay Scratch Canvas */
+    #scratch-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      touch-action: none;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Background Music Control -->
-    <button id="musicToggle" class="music-btn" aria-label="Toggle Music">🔊 Music On</button>
-    <audio id="bgMusic" loop preload="auto">
-        <source src="bg-music.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- Main Outer Screen Wrapper -->
-    <div class="main-wrapper">
+  <div class="scroll-container" id="scrollContainer">
+    <div class="scroll-handle top"></div>
+    
+    <div class="scroll-body">
+      <div class="scratch-wrapper">
         
-        <!-- Detailed Left Golden Mandala -->
-        <div class="mandala mandala-left"></div>
-        
-        <!-- Detailed Right Golden Mandala -->
-        <div class="mandala mandala-right"></div>
-
-        <!-- Central Royal Vertical Panel -->
-        <div class="card-wrapper">
-            <!-- Scratch Envelope Canvas Overlay -->
-            <canvas id="scratchCanvas"></canvas>
-
-            <!-- Invitation Content -->
-            <div class="invitation-card">
-                <div class="card-inner">
-                    <!-- Dual Top Divine Blessings -->
-                    <div class="blessing-box">
-                        <div class="blessing">|| Shree Ganeshay Namah ||</div>
-                        <div class="blessing">|| Shree Bhala Bheema Namah ||</div>
-                    </div>
-                    
-                    <p class="invite-tag">You are Cordially invited<br>to the Dhoti Ceremony of</p>
-                    
-                    <h1 class="child-name">Mudhelli Ayaan Kumar</h1>
-                    
-                    <div class="divider">✦ ✦ ✦</div>
-                    
-                    <div class="date-box">
-                        <p class="save-date">SAVE THE DATE</p>
-                        <p class="date-text">11:30 AM,12th SEP 2026</p>
-                    </div>
-
-                    <div class="family-details">
-                        <!-- Parents Section First -->
-                        <div class="parents-box">
-                            <p class="section-title">Soliciting your presence & blessings:</p>
-                            <p class="parents-names">
-                                Mudhelli Prashanthi & Mudhelli Bhanu Prasad
-                            </p>
-                        </div>
-
-                        <!-- Grandparents Section Second -->
-                        <div class="grandparents-box">
-                            <p class="section-title">With Grandparents' Blessings:</p>
-                            <p class="grandparents-names">
-                                Late Mudhelli Vijaya Kumar & Mudhelli Rama Devi<br>
-                                Chigullapally Venkatesham & Chigullapally Krishnaveni
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Event Location Button -->
-                    <a href="https://maps.app.goo.gl/axco1g3UQFD7TJo7A?g_st=awb" target="_blank" class="location-btn">
-                        <span class="pulse-pin">📍</span> Get Event Location
-                    </a>
-                </div>
-            </div>
+        <!-- Secret Revealed Content -->
+        <div class="invitation-details">
+          <h2>YOU'RE INVITED!</h2>
+          <p><strong>Event:</strong> Grand Celebration</p>
+          <p><strong>Date:</strong> September 12, 2026</p>
+          <p><strong>Time:</strong> 11:30 PM</p>
+          <p><strong>Venue:</strong> Royal Palace Hall</p>
         </div>
+
+        <!-- Scratch Coating Canvas -->
+        <canvas id="scratch-canvas" width="260" height="320"></canvas>
+      </div>
     </div>
 
-    <script src="script.js?v=11"></script>
+    <div class="scroll-handle bottom"></div>
+    <div class="tap-hint" id="tapHint">✨ TAP TO UNROLL ✨</div>
+  </div>
+
+  <script>
+    const scrollContainer = document.getElementById('scrollContainer');
+    const tapHint = document.getElementById('tapHint');
+    const canvas = document.getElementById('scratch-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let isUnrolled = false;
+    let isDrawing = false;
+
+    // --- 1. UNROLL SCROLL LOGIC ---
+    scrollContainer.addEventListener('click', (e) => {
+      if (!isUnrolled) {
+        scrollContainer.classList.add('open');
+        tapHint.textContent = '🪙 SCRATCH TO REVEAL DETAILS';
+        isUnrolled = true;
+        initScratchCanvas();
+      }
+    });
+
+    // --- 2. SCRATCH CARD CANVAS SETUP ---
+    function initScratchCanvas() {
+      // Create metallic scratch surface gradient
+      const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      grad.addColorStop(0, '#c0c0c0');
+      grad.addColorStop(0.5, '#e8e8e8');
+      grad.addColorStop(1, '#999999');
+      
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Add scratch instruction text on canvas
+      ctx.fillStyle = '#555555';
+      ctx.font = 'bold 16px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Scratch Here', canvas.width / 2, canvas.height / 2);
+    }
+
+    // Get position relative to canvas
+    function getMousePos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    // Scratch action
+    function scratch(e) {
+      if (!isDrawing || !isUnrolled) return;
+      e.preventDefault();
+
+      const pos = getMousePos(e);
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, 18, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Event Listeners for Touch/Mouse Scratching
+    canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+    canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+
+    window.addEventListener('mousemove', scratch);
+    window.addEventListener('touchmove', scratch, { passive: false });
+
+    window.addEventListener('mouseup', () => isDrawing = false);
+    window.addEventListener('touchend', () => isDrawing = false);
+  </script>
 </body>
 </html>
