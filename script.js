@@ -1,82 +1,127 @@
-// 1. Scroll Unfold Toggle Action
-const openBtn = document.getElementById('openBtn');
-const scrollCard = document.getElementById('scrollCard');
+document.addEventListener('DOMContentLoaded', () => {
+  const scrollCard = document.getElementById('scrollCard');
+  const openBtn = document.getElementById('openBtn');
+  const bgMusic = document.getElementById('bgMusic');
+  const canvas = document.getElementById('scratchCanvas');
+  const cardImage = document.getElementById('cardImage');
+  const ctx = canvas.getContext('2d');
+  
+  let isOpen = false;
+  let isScratching = false;
+  let fallingInterval = null;
+  let musicTimeout = null;
 
-openBtn.addEventListener('click', () => {
-  scrollCard.classList.toggle('open');
-  openBtn.textContent = scrollCard.classList.contains('open') ? 'Close Invitation' : 'Open Invitation';
+  // Initialize Scratch Coating
+  function initScratchCanvas() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+
+    // Gold coating
+    ctx.fillStyle = '#d4af37';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Prompt text
+    ctx.fillStyle = '#5c4033';
+    ctx.font = 'bold 16px Georgia';
+    ctx.textAlign = 'center';
+    ctx.fillText('Scratch Here 🪙', canvas.width / 2, canvas.height / 2);
+  }
+
+  // Scratch Action Logic (Radius expanded to 60px)
+  function scratch(e) {
+    if (!isScratching) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+    const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, 60, 0, Math.PI * 2); // Scratch brush radius set to 60px
+    ctx.fill();
+  }
+
+  // Scratch Event Listeners
+  ['mousedown', 'touchstart'].forEach(evt => 
+    canvas.addEventListener(evt, (e) => { isScratching = true; scratch(e); })
+  );
+  ['mousemove', 'touchmove'].forEach(evt => 
+    canvas.addEventListener(evt, scratch)
+  );
+  ['mouseup', 'mouseleave', 'touchend'].forEach(evt => 
+    canvas.addEventListener(evt, () => isScratching = false)
+  );
+
+  // Start Falling Items Animation
+  function startFallingItems() {
+    stopFallingItems();
+    const container = document.getElementById('fallingContainer');
+    const items = ['🌸', '🌺', '🌹', '🍫', '🍩'];
+    
+    fallingInterval = setInterval(() => {
+      const item = document.createElement('div');
+      item.classList.add('falling-item');
+      item.innerText = items[Math.floor(Math.random() * items.length)];
+      item.style.left = Math.random() * 100 + 'vw';
+      item.style.animationDuration = Math.random() * 3 + 3 + 's';
+      item.style.fontSize = Math.random() * 15 + 20 + 'px';
+      
+      container.appendChild(item);
+
+      setTimeout(() => item.remove(), 6000);
+    }, 300);
+  }
+
+  // Stop & Clear Falling Items
+  function stopFallingItems() {
+    if (fallingInterval) {
+      clearInterval(fallingInterval);
+      fallingInterval = null;
+    }
+    const container = document.getElementById('fallingContainer');
+    if (container) container.innerHTML = '';
+  }
+
+  // Card Toggle Event Listener
+  openBtn.addEventListener('click', () => {
+    isOpen = !isOpen;
+
+    if (isOpen) {
+      scrollCard.classList.add('open');
+      openBtn.textContent = 'Close Scroll';
+      
+      // Play Audio & Set 60-Second Stop Timer
+      if (bgMusic) {
+        bgMusic.currentTime = 0;
+        bgMusic.play().catch(err => console.log("Audio play error:", err));
+
+        clearTimeout(musicTimeout);
+        musicTimeout = setTimeout(() => {
+          bgMusic.pause();
+        }, 60000);
+      }
+
+      startFallingItems();
+
+    } else {
+      scrollCard.classList.remove('open');
+      openBtn.textContent = 'Open Scroll';
+
+      if (bgMusic) {
+        bgMusic.pause();
+        clearTimeout(musicTimeout);
+      }
+
+      stopFallingItems();
+    }
+  });
+
+  // Guarantee clean initial state
+  stopFallingItems();
+
+  // Resize canvas canvas once image loads
+  if (cardImage.complete) {
+    initScratchCanvas();
+  } else {
+    cardImage.addEventListener('load', initScratchCanvas);
+  }
 });
-
-// 2. Interactive Gold Scratch Foil Layer
-const canvas = document.getElementById('scratchCanvas');
-const ctx = canvas.getContext('2d');
-let isDrawing = false;
-
-function initCanvas() {
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
-  
-  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  gradient.addColorStop(0, '#d4af37');
-  gradient.addColorStop(0.5, '#fff3a8');
-  gradient.addColorStop(1, '#aa7c11');
-  
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  ctx.fillStyle = '#4a0000';
-  ctx.font = 'bold 16px Georgia';
-  ctx.textAlign = 'center';
-  ctx.fillText('✨ Scratch Here ✨', canvas.width / 2, canvas.height / 2);
-}
-
-function scratch(e) {
-  if (!isDrawing) return;
-  const rect = canvas.getBoundingClientRect();
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-  
-  const x = clientX - rect.left;
-  const y = clientY - rect.top;
-
-  ctx.globalCompositeOperation = 'destination-out';
-  ctx.beginPath();
-  ctx.arc(x, y, 22, 0, Math.PI * 2);
-  ctx.fill();
-}
-
-canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
-canvas.addEventListener('mousemove', scratch);
-canvas.addEventListener('mouseup', () => isDrawing = false);
-canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
-canvas.addEventListener('touchmove', scratch);
-canvas.addEventListener('touchend', () => isDrawing = false);
-
-window.addEventListener('load', initCanvas);
-
-// 3. Falling Flower Animation
-const fallingContainer = document.getElementById('fallingContainer');
-const petals = ['🌸', '🌼', '✨', '🌺'];
-
-function createPetal() {
-  const petal = document.createElement('div');
-  petal.className = 'falling-item';
-  petal.textContent = petals[Math.floor(Math.random() * petals.length)];
-  petal.style.left = Math.random() * 100 + 'vw';
-  petal.style.animationDuration = Math.random() * 3 + 4 + 's';
-  petal.style.fontSize = Math.random() * 10 + 15 + 'px';
-  
-  fallingContainer.appendChild(petal);
-  
-  setTimeout(() => {
-    petal.remove();
-  }, 7000);
-}
-
-setInterval(createPetal, 350);
-
-// 4. View Counter Tracker
-fetch('https://api.counterapi.dev/v1/traditional_invitation_event_2026/visits/up')
-  .then(res => res.json())
-  .then(data => console.log('Total Views:', data.count))
-  .catch(err => console.error('Tracker error:', err));
