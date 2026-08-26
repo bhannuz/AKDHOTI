@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function startFallingItems() {
     stopFallingItems();
     const container = document.getElementById('fallingContainer');
-    const items = ['🌸', '🌺', '🌹', '🍫', '🍩'];
+    const items = ['🌺', '🌹', '🍫', '🍩'];
     
     fallingInterval = setInterval(() => {
       const item = document.createElement('div');
@@ -103,8 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
       startFallingItems();
 
     } else {
-      scrollCard.classList.remove('open');
-      openBtn.textContent = 'Open Scroll';
+      scrollCard.classList.remove('click');
+      openBtn.textContent = 'Click Here';
 
       if (bgMusic) {
         bgMusic.pause();
