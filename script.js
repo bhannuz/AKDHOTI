@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.fillText('Scratch Here 🪙', canvas.width / 2, canvas.height / 2);
   }
 
-  // Scratch Action Logic (Radius expanded to 60px)
+  // Scratch Action Logic (Brush radius 60px)
   function scratch(e) {
     if (!isScratching) return;
     const rect = canvas.getBoundingClientRect();
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 60, 0, Math.PI * 2); // Scratch brush radius set to 60px
+    ctx.arc(x, y, 60, 0, Math.PI * 2);
     ctx.fill();
   }
 
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isOpen) {
       scrollCard.classList.add('open');
-      openBtn.textContent = 'Close Scroll';
+      openBtn.textContent = 'Close';
       
       // Play Audio & Set 60-Second Stop Timer
       if (bgMusic) {
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
       startFallingItems();
 
     } else {
-      scrollCard.classList.remove('click');
+      scrollCard.classList.remove('open'); // Fixed: Corrected class name from 'click' to 'open'
       openBtn.textContent = 'Click Here';
 
       if (bgMusic) {
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Guarantee clean initial state
   stopFallingItems();
 
-  // Resize canvas canvas once image loads
+  // Resize canvas once image loads
   if (cardImage.complete) {
     initScratchCanvas();
   } else {
